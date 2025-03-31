@@ -19,7 +19,7 @@ A ideia é documentar meu processo e compartilhar aprendizados ao longo do camin
 
 Se você quiser acompanhar minha jornada ou contribuir com sugestões, fique à vontade! Vamos crescer juntos! 💪
 
-## 📌 Repositório: [link_do_repositorio]
+## 📌 Repositório: [https://github.com/VictorFilgueirasBR/todo-list-app.git]
 
 ## 🔧 Tecnologias:
 - **Backend:** Java, Spring Boot
