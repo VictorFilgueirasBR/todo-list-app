@@ -1,0 +1,46 @@
+.how-it-works {
+    padding: 4rem 2rem;
+    text-align: center;
+    background-color: #181818;
+  }
+  
+  .how-it-works h2 {
+    color: #00bfff;
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+  
+  .step {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .step:hover {
+    transform: translateY(-5px);
+  }
+  
+  .step-icon {
+    font-size: 2.5rem;
+    color: #00bfff;
+    margin-bottom: 1rem;
+  }
+  
+  .step h3 {
+    color: #f5f5f5;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step p {
+    color: #bdbdbd;
+    font-size: 0.95rem;
+  }
+  

@@ -1,0 +1,63 @@
+/* src/components/ClassListOrder.css */
+
+.class-list-order-legend {
+  background-color: #121212; /* Fundo escuro para a caixa da legenda */
+  border: solid 1px #6666662d;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px; /* Espaçamento superior */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  color: #f0f0f0; /* Cor do texto geral da legenda */
+  font-family: 'Montserrat', sans-serif;
+}
+
+@media (max-width: 500px) {
+  .class-list-order-legend {
+    /* ✅ Alteração aqui:
+       O primeiro valor é para margin-top e margin-bottom.
+       O segundo valor é para margin-left e margin-right.
+       Experimente 0.5rem ou 0 para as laterais se quiser que fique bem colado. */
+    margin: 1rem 0.5rem; /* Exemplo: 1rem vertical, 0.5rem horizontal */
+    /* Ou, se quiser remover completamente as margens laterais em telas pequenas: */
+    /* margin: 1rem 0; */
+  }
+}
+
+
+.class-list-order-legend h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #ffffff; /* Cor do título */
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.legend-item {
+  display: flex; /* Para alinhar a bolinha e o texto na mesma linha */
+  align-items: center; /* Centraliza verticalmente */
+  font-size: 0.9rem;
+}
+
+.legend-color-dot {
+  width: 18px;   /* Tamanho da bolinha */
+  height: 18px;  /* Tamanho da bolinha */
+  border-radius: 50%; /* Faz com que seja uma bolinha */
+  margin-right: 10px; /* Espaçamento entre a bolinha e o texto */
+  /* As cores de fundo serão definidas pelas classes de borda existentes */
+}
+
+/* As classes de borda para definir a cor de fundo das bolinhas */
+.urgent-red-border {
+  background-color: #f44336; /* Vermelho vibrante */
+  border: 1px solid #d32f2f; /* Borda um pouco mais escura, se quiser */
+}
+
+.urgent-orange-border {
+  background-color: #ff9800; /* Laranja */
+  border: 1px solid #f57c00;
+}
+
+.urgent-green-border {
+  background-color: #4CAF50; /* Verde */
+  border: 1px solid #388e3c;
+}

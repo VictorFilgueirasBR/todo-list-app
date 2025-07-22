@@ -1,0 +1,134 @@
+/* src/components/CustomizeListPopup.css */
+
+.customize-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.customize-popup-content {
+  background-color: var(--card-bg-color); 
+  padding: 15px; 
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: 700px; /* Aumentei um pouco mais para o código */
+  height: 80%; /* Altura fixa para o popup */
+  max-height: 50vh; 
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espaço entre os elementos principais */
+}
+
+
+
+/* --- Estilos para o Bloco de Código --- */
+.code-block-container {
+  background-color: #1a1a1a; /* Fundo mais escuro para o bloco de código */
+  border-radius: 6px;
+  border: solid 1px #4a4a4a;
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Faz o bloco de código preencher o espaço disponível */
+}
+
+.code-block-header {
+  background-color: #3b3b3b; 
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e0e0e0; 
+  font-family: 'Segoe UI', sans-serif; /* Uma fonte sans-serif mais limpa */
+  font-size: 0.9em;
+  border-bottom: 1px solid #4a4a4a; 
+}
+
+.language-label {
+  font-weight: bold;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  color: #a0a0a0; 
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.copy-button:hover {
+  color: #ffffff; 
+  background-color: #555555; 
+}
+
+.code-block-body {
+  padding: 15px;
+  overflow-y: auto; /* Adiciona scroll se o código for muito longo */
+  flex-grow: 1; /* Permite que o corpo do código preencha o restante do espaço */
+}
+
+/* Fundo da barra de rolagem (a trilha) */
+.code-block-body::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Nova cor de fundo para a trilha da barra de rolagem */
+  border-radius: 5px; /* Mantém as bordas arredondadas, se desejar */
+}
+
+.code-block-body pre {
+  margin: 0; /* REMOVE MARGENS PADRÃO */
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace; /* Fontes monoespaçadas */
+  font-size: 0.85em; 
+  line-height: 1.4;
+  color: #f0f0f0; 
+  white-space: pre-wrap; /* MUITO IMPORTANTE: Quebra linhas longas */
+  word-break: break-word; /* Quebra palavras muito longas */
+}
+
+.code-block-body code {
+    display: block; /* Garante que o code se comporte como um bloco */
+    white-space: pre-wrap; /* Repetido para garantir */
+    word-break: break-word; /* Repetido para garantir */
+}
+
+
+.customize-popup-done-button {
+  background-color: var(--primary-color); 
+  color: white;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  align-self: center; /* Centraliza o botão */
+  margin-top: 5px; /* Espaço do topo */
+  width: fit-content; /* Ajusta a largura ao conteúdo */
+}
+
+.customize-popup-done-button:hover {
+  background-color: var(--primary-dark-color); 
+  transform: scale(1.02);
+  transition: 0.8s;
+}
+
+/* Variáveis de tema (ajuste para o seu tema) */
+:root {
+  --card-bg-color: #2c2c2c; /* Cor de fundo principal do popup */
+  --text-color: #e0e0e0;
+  --primary-color: #00bfff; 
+  --primary-dark-color: #0056b3;
+  --input-bg-color: #3b3b3b; 
+  --border-color: #555;
+}

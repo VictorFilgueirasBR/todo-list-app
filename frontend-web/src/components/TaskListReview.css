@@ -1,0 +1,515 @@
+/* src/components/TaskListReview.css */
+.tasklistreview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  
+}
+
+.tasklistreview-box {
+  background-color: #222;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 10px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+}
+
+.tasklistreview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.tasklistreview-title {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.7rem;
+  color: #ffffffb6;
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.back-button:hover {
+  color: #00bfff;
+}
+
+
+.tasklistreview-description {
+  margin: 1rem 0;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.tasklistreview-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* cursor: pointer; REMOVIDO: o cursor já é definido no item individualmente */
+  
+}
+
+.tasklistreview-item {
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 0.8rem;
+  color: white;
+  font-weight: bold;
+  display: flex; /* Adicionado para alinhar ícone de check */
+  justify-content: space-between; /* Adicionado para alinhar ícone de check */
+  align-items: center; /* Adicionado para alinhar ícone de check */
+}
+
+.tasklistreview-item:hover{
+  transform: scale(1.01);
+  cursor: pointer;
+
+}
+
+/* ✅ NOVO ESTILO: Item Concluído */
+.tasklistreview-item.completed-item {
+  text-decoration: line-through;
+  color: #888; /* Cor mais escura para indicar concluído */
+  border-color: #888; /* Borda mais escura */
+}
+
+/* ✅ NOVO ESTILO: Ícone de Item Concluído */
+.item-completed-icon {
+  margin-left: 10px;
+  color: #00bfff; /* A cor do seu tema para sucesso */
+}
+
+
+.nomenclature-item-description {
+  color: #ccc;
+}
+
+.tasklistreview-item-description {
+  color: #ccc;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+
+.no-items-text {
+  color: #aaa;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.timer-button{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.timerprogram-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: transparent;
+  border: solid 1px #fff; /* Corrigido para "solid 1px" */
+  border-radius: 8px;
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+
+  background: linear-gradient(251deg, #6dfc34, #04ffff, #00bfff, #04bdf5, #5ccefc, #009ad6, #14f28a, #fffcf8, #00ffea, #00752d, #5b36ff, #05acca);
+    background-size: 2400% 2400%;
+
+    -webkit-animation: AnimationName 10s ease infinite;
+    -moz-animation: AnimationName 10s ease infinite;
+    animation: AnimationName 8s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+
+.timerprogram-button:hover{
+  color: #fff;
+  background-color: #222;
+  transform: scale(1.02);
+  cursor: pointer;
+  transition: 0.3s;
+  border: solid 1px #fff; /* Corrigido para "solid 1px" */
+  box-shadow: #ccc;
+}
+
+/* ✅ NOVO ESTILO: Botão de Editar Lembrete */
+.edit-reminder-button {
+  margin-top: 15px; /* Espaçamento entre o texto do lembrete e o botão */
+  font-size: 0.9rem; /* Um pouco menor para ser secundário */
+  padding: 8px 15px;
+  background: #333; /* Uma cor mais discreta */
+  border: 1px solid #555;
+}
+
+.edit-reminder-button:hover {
+  background-color: #444;
+  border-color: #777;
+}
+
+
+.delete-list-button {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: transparent;
+  border: solid 1px #fff; /* Corrigido para "solid 1px" */
+  border-radius: 8px;
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  background-color: #222; /* Cor de erro/vermelho */
+}
+
+.delete-list-button:hover {
+  transform: scale(1.02);
+  transition: 0.3s;
+  cursor: pointer;
+  background-color: #222; /* Tom mais escuro ao hover */
+}
+
+
+.alarm-icon {
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+
+.tasklistreview-item-details {
+  margin-top: 1rem;
+  color: #ccc;
+}
+
+.back-icon {
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+.back-icon:hover {
+  font-size: 1.5rem;
+  color: #00bfff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tasklistreview-link {
+  color: #00bfff;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.tasklistreview-link:hover {
+  color: #1e90ff;
+}
+
+.tasklistreview-image-wrapper {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.tasklistreview-image {
+  max-height: 300px;
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.conclude-item-button {
+  width: 90%;
+  margin: 10px auto 0;
+  padding: 12px;
+  background-color: #00bfff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  transition: background-color 0.5s ease;
+}
+
+.conclude-item-button:hover {
+  background-color: #15c4ff;
+  scale: 1.03;
+  transition: 0.5s;
+}
+
+/* ✅ NOVO ESTILO: Botão de Reabrir Item */
+.reopen-item-button {
+  background-color: #ffc107; /* Amarelo/aviso para reabrir */
+}
+
+.reopen-item-button:hover {
+  background-color: #e0a800; /* Tom mais escuro ao hover */
+}
+
+
+/* Scroll do TaskListReview igual ao SavedTaskList */
+/* Se a classe do scrollbar está no tasklistreview-box, ajuste aqui */
+.tasklistreview-box::-webkit-scrollbar { /* Alterado para .tasklistreview-box */
+  width: 6px; /* fininha */
+}
+
+.tasklistreview-box::-webkit-scrollbar-thumb { /* Alterado para .tasklistreview-box */
+  background-color: #666; /* cinza discreto */
+  border-radius: 10px; /* arredondadinha */
+}
+
+.tasklistreview-box::-webkit-scrollbar-track { /* Alterado para .tasklistreview-box */
+  background: transparent; /* sem cor no fundo */
+}
+
+/* Firefox */
+.tasklistreview-box { /* Alterado para .tasklistreview-box */
+  scrollbar-width: thin;
+  scrollbar-color: #666 transparent;
+}
+
+.popup-notify-box {
+  background-color: #222;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  color: white;
+  text-align: center;
+}
+
+.popup-input {
+  margin: 10px 0;
+  padding: 10px;
+  width: 95%;
+  font-size: 1rem;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #121212;
+  color: white;
+  cursor: text;
+  outline: none;
+  box-shadow: none;
+  caret-color: white;
+
+  /* remove destaque azul do Chrome */
+  transition: none;
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Remove fundo azul padrão em inputs de data/hora no Chrome */
+.popup-input:focus {
+  background-color: #121212;
+  border-color: #00bfff;
+}
+
+/* Remove botão de calendário nativo do Chrome */
+.popup-input::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* deixa o ícone branco no fundo escuro */
+  cursor: pointer;
+}
+
+
+.divider-line-up {
+  margin-top: 0.8rem;
+  border: none;
+  border-top: 1px solid #66666628;
+  height: 1px;
+}
+
+.divider-line-down {
+  margin-top: 0.5rem;
+  border: none;
+  border-top: 1px solid #66666628;
+  height: 1px;
+}
+
+
+
+.divider-text-program {
+  display: flex;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  color: #ffffff4b;
+}
+
+
+.reminder-box {
+  display: flex;
+  flex-direction: row;/* Alterado para coluna para o botão de editar ficar abaixo */
+  align-items: center; /* Centraliza os itens */
+  padding: 1rem; /* Padding em vez de padding-left/right */
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff4b;
+  margin-top: 0px; /* Adiciona um espaço acima do reminder box */
+  margin-bottom: 20px; /* Adiciona um espaço abaixo do reminder box */
+}
+
+.reminder-box p {
+  font-size: small;
+  margin: 5px 0; /* Espaçamento entre os parágrafos de data/hora */
+  color: #ccc;
+}
+
+.reminder-box strong {
+  color: #00bfff; /* Cor do seu tema para destaque */
+}
+
+.reminder-box button {
+  margin-top: 0;
+  justify-content: center;
+
+  
+}
+
+@media (max-width: 600px) {
+  .reminder-box p{
+    font-size: 10px;
+  }
+}
+
+.reminder-box:hover button {
+  
+  cursor: pointer;
+  color: #fff;
+  border-color: 2px solid #fff;
+
+  background: linear-gradient(251deg, #6dfc34, #04ffff, #00bfff, #04bdf5, #5ccefc, #009ad6, #14f28a, #fffcf8, #00ffea, #00752d, #5b36ff, #05acca);
+    background-size: 2400% 2400%;
+
+    -webkit-animation: AnimationName 10s ease infinite;
+    -moz-animation: AnimationName 10s ease infinite;
+    animation: AnimationName 8s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 54%}
+    50%{background-position:100% 47%}
+    100%{background-position:0% 54%}
+}
+  
+
+
+/* Estilos para o botão de confirmação e cancelamento (gerais para os popups) */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-box {
+  background-color: #222;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  color: white; /* Cor do texto no popup */
+}
+
+.confirm-box h2 {
+  margin-top: 0;
+  color: #fff; /* Cor do título no popup */
+  font-size: 1.3em;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.confirm-button,
+.cancel-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none; /* Remove a borda padrão dos botões */
+}
+
+.confirm-button {
+  background-color: #00bfff; /* Cor do seu tema para confirmação */
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #15c4ff;
+}
+
+.cancel-button {
+  background-color: #555; /* Cor para cancelar */
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #777;
+}

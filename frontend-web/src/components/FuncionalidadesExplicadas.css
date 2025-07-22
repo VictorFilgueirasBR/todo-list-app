@@ -1,0 +1,46 @@
+.explicacao-funcionalidades {
+    background-color: #1e1e1e;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    color: #f0f0f0;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.05);
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .explicacao-funcionalidades h2 {
+    font-size: 2rem;
+    color: #00bfff;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .explicacao-funcionalidades p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    color: #d1d1d1;
+  }
+  
+  .explicacao-funcionalidades ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .explicacao-funcionalidades li {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  
+  .explicacao-funcionalidades li::before {
+    content: "✔️";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  

@@ -1,0 +1,62 @@
+/* Importando a fonte Anton do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -250px; /* Começa fora da tela à direita */
+  width: 250px;
+  height: 100%;
+  background: #000;
+  transition: right 0.5s ease-in-out;
+  padding-top: 60px;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  padding: 15px;
+  text-align: left; /* ✅ Alinhado à esquerda */
+  padding-left: 20px; /* Opcional: espaçamento da borda esquerda */
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: 'Anton', sans-serif; /* ✅ Fonte alterada */
+  display: block;
+}
+
+.sidebar ul li a:hover {
+  background: #333;
+}
+
+.logout-button {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: 'Anton', sans-serif; 
+  background-color: #000;
+  cursor: pointer;
+  border: 0 #000;
+}
+
+.sidebar-button {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: 'Anton', sans-serif; 
+  background-color: #000;
+  cursor: pointer;
+  border: 0 #000;
+}

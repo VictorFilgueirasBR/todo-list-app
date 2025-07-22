@@ -1,0 +1,94 @@
+/* src/components/Header.css */
+.header {
+  position: fixed; /* Fixar no topo */
+  top: 0; /* Gruda no topo da tela */
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #000;
+  z-index: 1000; /* Fica acima dos outros elementos */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+.logo {
+  height: 50px;
+}
+
+.hamburger-menu {
+  display: block;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1001; /* Garante que o botão fique acima do menu */
+}
+
+.hamburger-menu .bar {
+  width: 25px;
+  height: 3px;
+  margin: 5px;
+  background-color: white;
+  transition: 0.3s;
+}
+
+.hamburger-menu.open .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-menu.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.open .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Menu Responsivo */
+.nav {
+  position: fixed;
+  top: 0;
+  right: -250px; /* Menu escondido */
+  width: 250px;
+  height: 100vh;
+  background-color: #000;
+  transition: right 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.nav ul li {
+  margin: 20px 0;
+}
+
+.nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+/* Classe para abrir o menu */
+.nav.open {
+  right: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nav {
+      width: 200px;
+  }
+}

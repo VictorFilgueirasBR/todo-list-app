@@ -1,0 +1,176 @@
+/* src/pages/SignUp.css */
+.signup-container {
+  max-width: 400px;
+  margin: 7rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    .signup-container{
+        padding-top: 5rem;
+        margin: 10rem 2rem;
+    }
+}
+
+.signup-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.signup-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-container input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.signup-container button {
+  padding: 0.75rem 1rem;
+  background-color: #00bfff;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.signup-container button:hover {
+  background-color: #00bfff;
+}
+
+.signup-container .error {
+  color: red;
+  margin-top: -0.5rem;
+  font-size: 0.9rem;
+}
+
+.signup-container .explanation {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.signup-container .option {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signup-container .option:hover {
+  text-decoration: underline;
+}
+
+.explanation {
+    color: #333;
+}
+
+.error-message {
+
+  color: red;
+
+  background-color: #ffecec;
+
+  padding: 10px;
+
+  border-radius: 5px;
+
+  margin-bottom: 15px;
+
+  text-align: center;
+
+}
+
+.password-requirements {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ffe0b2; /* Laranja claro */
+  border: 1px solid #ff9800; /* Laranja */
+  border-radius: 4px;
+  color: #333;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.password-requirements p {
+  margin: 0;
+  padding: 2px 0;
+}
+
+.password-error-message {
+  color: #d32f2f; /* Vermelho escuro */
+  font-weight: bold;
+}
+
+.input-with-icon {
+  position: relative; /* Para posicionar o ícone absolutamente dentro */
+  margin-bottom: 15px; /* Espaçamento entre os grupos de input+ícone */
+  display: flex; /* Para alinhar o input e o ícone na mesma linha */
+  align-items: center; /* Centraliza verticalmente o input e o ícone */
+}
+
+.input-with-icon input {
+  flex-grow: 1; /* Permite que o input ocupe o espaço disponível */
+  padding-right: 40px; /* Adiciona espaço para o ícone no final do input */
+  /* Certifique-se de que o padding do input seja suficiente para não sobrepor o ícone */
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px; /* Ajuste a distância da direita conforme necessário */
+  top: 50%;
+  transform: translateY(-50%); /* Centraliza verticalmente o ícone */
+  font-size: 24px; /* Tamanho do ícone */
+  /* Cores específicas para os ícones, se desejar substituir as cores padrão do FcOk/FcCancel */
+}
+
+
+/* Estilos para as mensagens de feedback (existentes, mas revisadas) */
+.checking-message {
+    color: gray;
+    font-size: 0.85em;
+    margin-top: -10px; /* Ajusta para ficar mais próximo do input */
+    margin-bottom: 10px;
+}
+
+.available-message {
+    color: green;
+    font-size: 0.85em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.taken-message {
+    color: red;
+    font-size: 0.85em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos específicos para o ícone de toggle de senha */
+.password-toggle-icon {
+  position: absolute;
+  right: 10px; /* Alinha com os outros ícones */
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer; /* Indica que é clicável */
+  font-size: 20px; /* Ajuste o tamanho conforme necessário */
+  color: #888; /* Uma cor neutra para o ícone */
+  /* Certifique-se de que não vai sobrepor ou ser sobreposto pelos ícones de FcOk/FcCancel se eles estiverem no mesmo contexto */
+}
+
+/* Opcional: Se precisar ajustar o padding-right do input de senha */
+.input-with-icon input[type="password"],
+.input-with-icon input[type="text"][name="password"] { /* Seleciona o input de senha em ambos os tipos */
+  padding-right: 40px; /* Aumenta o padding para acomodar o ícone de toggle */
+}

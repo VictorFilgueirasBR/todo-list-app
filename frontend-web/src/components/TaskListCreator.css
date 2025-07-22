@@ -1,0 +1,75 @@
+.task-creator-box {
+    background-color: #1e1e1e;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+  }
+  
+  .list-title-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 1rem;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  .description-container {
+    position: relative;
+  }
+  
+  .list-description-input {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a2a2a;
+    color: #fff;
+    resize: none;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .char-count {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  
+  .task-creator-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    gap: 10px;
+  }
+  
+  .cta-button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #2a2a2a;
+    transform: scale(1.03);
+  }
+  
+  .cancel {
+    color: #aaa;
+    border-color: #aaa;
+  }
+  

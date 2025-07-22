@@ -1,0 +1,234 @@
+.profile-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden; /* impede qualquer scroll horizontal */
+  overflow-y: auto; /* permite scroll vertical apenas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #121212;
+}
+
+.profile-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  padding-top: 75px;
+  margin-bottom: 5vh;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .profile-wrapper{
+    margin-bottom: 5vh;
+  }
+}
+
+.profile-banner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 0 0 15px 15px;
+}
+
+.profile-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 0 15px 15px;
+}
+
+.upload-icon {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-icon:hover {
+  background-color: rgba(0, 191, 255, 0.7);
+}
+
+
+.profile-picture {
+  /* ✅ POSICIONAMENTO DO AVATAR */
+  position: absolute; /* ✅ Posicionamento absoluto em relação ao .profile-wrapper */
+  top: 73%; /* ✅ Começa na metade da altura do .profile-wrapper */
+  left: 15vh; /* ✅ Começa na metade da largura do .profile-wrapper */
+  transform: translate(-50%, -50%); /* ✅ Centraliza o elemento no ponto (top, left) */
+  /*
+    Explicação do 'top: 50%' e 'transform: translate(-50%, -50%)':
+    - 'top: 50%' alinha o TOPO do avatar com o meio do .profile-wrapper.
+    - 'transform: translate(-50%, -50%)' move o avatar 50% de sua própria largura
+      para a esquerda e 50% de sua própria altura para cima.
+      O resultado é que o CENTRO do avatar fica no ponto (top: 50%, left: 50%).
+      Com o banner de 200px, 50% de 'top' fará com que o centro do avatar
+      esteja na linha divisória do banner, atingindo o "50% em cima do banner e 50% para baixo".
+  */
+  
+  width: 100px; /* ✅ Tamanho do avatar. Ajuste conforme desejado. */
+  height: 100px; /* ✅ Tamanho do avatar */
+  border-radius: 50%; /* Faz o avatar ser redondo */
+  border: 3px solid #121212; /* Borda branca ao redor do avatar */
+  overflow: hidden; /* Garante que a imagem de perfil fique dentro do círculo */
+  
+  z-index: 10; /* ✅ Garante que o avatar fique acima de outros elementos */
+  background-color: #1e1e1e; /* Cor de fallback para o placeholder */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+@media (max-width: 600px){
+  .profile-picture {
+    left: 8vh;
+  }
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que a imagem preencha o círculo */
+}
+
+.upload-placeholder {
+  font-size: 2rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: bold;
+  user-select: none;
+  transition: transform 0.3s ease;
+}
+
+.upload-placeholder:hover {
+  transform: scale(1.3);
+}
+
+.profile-username {
+  margin-top: 50px;
+  margin-left: 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0f0f0;
+}
+
+/* Seção da Nova Lista */
+.new-list-section {
+  position: relative;
+  margin-top: 20px;
+  width: 95%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.floating-new-list-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 20vw;
+  max-width: 250px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #121212;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.floating-new-list-button:hover {
+  background-color: #2a2a2a;
+  transform: scale(1.05);
+}
+
+/* Seção das Listas Salvas */
+.saved-lists-section {
+  border: solid 1px #6666662d;
+  border-radius: 15px;
+  padding-top: 20px;
+  width: 95%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 300px;
+  margin-bottom: 5vh;
+}
+
+/* Footer */
+.footer {
+  margin-top: 5vh;
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid #2c2c2c;
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+.footer a {
+  color: #00bfff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Divisor entre seções */
+.divider-section {
+  padding-top: 40px;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .divider-section {
+    padding-top: 10px;
+  }
+}
+
+.divider-line {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #66666628;
+  height: 1px;
+}
+
+.divider-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem;
+  color: #ffffff4b;
+  white-space: nowrap;
+}
+
+.no-lists-text {
+  
+  color: #9999997e;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 5rem;
+  
+}
+
+
