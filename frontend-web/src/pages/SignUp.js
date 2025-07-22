@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react'; // ✅ Removido useEffect, pois não era utilizado
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import './SignUp.css';
@@ -45,7 +45,10 @@ function SignUp() {
     if (!/[0-9]/.test(password)) {
       errors.push('A senha deve conter pelo menos um número.');
     }
-    if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password)) {
+    // ✅ CORREÇÃO DA REGEX: Removidos os caracteres de escape desnecessários para '[', ']' e '/'
+    // A barra invertida '\' ainda precisa ser escapada como '\\' para ser literal.
+    // O hífen '-' no final da classe de caracteres é literal e não precisa de escape.
+    if (!/[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(password)) { 
       errors.push('A senha deve conter pelo menos um caractere especial (ex: !@#$%).');
     }
 
@@ -210,6 +213,7 @@ function SignUp() {
             value={formData.email}
             onChange={handleChange}
             required
+            // ✅ REMOVIDO: maxLength="5" que foi adicionado por engano
           />
           {emailAvailability === 'available' && <FcOk className="input-icon success-icon" />}
           {emailAvailability === 'taken' && <FcCancel className="input-icon error-icon" />}
