@@ -1,7 +1,6 @@
 // src/components/SettingsPopup.js
 import React, { useState, useRef, useEffect } from "react";
-// import axios from "axios"; // ❌ REMOVIDO: Não precisamos mais do axios direto
-import api from "../services/api"; // ✅ ALTERADO: Importa a instância 'api'
+import api from "../services/api";
 import { FiX, FiUpload, FiUser, FiTrash } from "react-icons/fi";
 import toast from 'react-hot-toast';
 import "./SettingsPopup.css";
@@ -18,34 +17,25 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
     }
   }, [initialSection]);
 
-  // ✅ useEffect para lidar com cliques fora do popup
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Se o clique não foi dentro do popup (o elemento com a ref)
-      // E o clique não foi no botão de fechar (que já tem seu próprio onClick)
-      // E o clique não foi no próprio overlay (que já está capturando o evento)
-      // A condição principal é verificar se o clique *não* está contido em 'popupRef.current'
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        onClose(); // Chama a função para fechar o popup
-        if(setInitialSection) setInitialSection("main"); // Reseta a seção inicial
+        onClose();
+        if(setInitialSection) setInitialSection("main");
       }
     };
 
-    // Adiciona o event listener ao 'popup-overlay' que é o elemento pai de tudo
-    // Este overlay já tem a class 'popup-overlay' e cobre toda a tela.
-    // Assim, o listener é adicionado ao elemento que é clicável fora do popup.
     const overlayElement = document.querySelector('.popup-overlay');
     if (overlayElement) {
         overlayElement.addEventListener("mousedown", handleClickOutside);
     }
     
-    // Cleanup: remove o event listener quando o componente é desmontado
     return () => {
       if (overlayElement) {
         overlayElement.removeEventListener("mousedown", handleClickOutside);
       }
     };
-  }, [onClose, setInitialSection]); // Dependências: onClose e setInitialSection
+  }, [onClose, setInitialSection]);
 
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarDragActive, setAvatarDragActive] = useState(false);
@@ -53,16 +43,11 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
   const [avatarLoading, setAvatarLoading] = useState(false);
   const avatarInputRef = useRef(null);
 
-  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; // ❌ REMOVIDO: Usaremos a instância 'api'
-
   const handleUsernameSave = async () => {
     try {
-      // const token = localStorage.getItem("token"); // Token já é adicionado pelo interceptor
-      // ✅ ALTERADO: Usando 'api.put' e URL relativa
       const res = await api.put(
-        '/profile/username', // URL relativa, o prefixo /api é adicionado pela baseURL do axios
+        '/profile/username',
         { username: newUsername }
-        // { headers: { Authorization: `Bearer ${token}` } } // Token já é adicionado pelo interceptor
       );
       if (res.status === 200) {
         setUsername(newUsername);
@@ -127,24 +112,19 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
 
     try {
       setAvatarLoading(true);
-      // const token = localStorage.getItem("token"); // Token já é adicionado pelo interceptor
-      // ✅ ALTERAÇÃO CRUCIAL: Usando 'api.put' e URL relativa
-      const res = await api.put('/profile/uploads/avatars', formData, { // <-- ENVIANDO INFORMAÇÕES DO AVATAR
+      const res = await api.put('/profile/uploads/avatars', formData, {
         headers: {
-          // Authorization: `Bearer ${token}`, // Token já é adicionado pelo interceptor
-          "Content-Type": "multipart/form-data", // Essencial para envio de arquivos
+          "Content-Type": "multipart/form-data",
         },
       });
 
       if (res.status === 200) {
-        const imagePath = res.data.avatar; // O backend agora retorna 'avatar'
+        const imagePath = res.data.avatar; // Ex: /uploads/avatars/nome_da_imagem.jpg
         if (imagePath) {
-          // ✅ Corrigido para usar a baseURL configurada no api.js para a imagem
-          // `api.defaults.baseURL` é 'https://todolistapp22.duckdns.org/api'
-          // Precisamos remover o '/api' para obter a base 'https://todolistapp22.duckdns.org'
-          setProfileImage(`${api.defaults.baseURL.replace('/api', '')}${imagePath}`); // Atualiza o estado da imagem de perfil no App.js
+          // ✅ CORREÇÃO AQUI: Adiciona o prefixo /api para que o Nginx encaminhe corretamente
+          // api.defaults.baseURL já é 'https://todolistapp22.duckdns.org/api'
+          setProfileImage(`${api.defaults.baseURL}${imagePath}`); // Resulta em: https://todolistapp22.duckdns.org/api/uploads/avatars/nome_da_imagem.jpg
           toast.success("Avatar enviado com sucesso!");
-          // Resetar estados e fechar/voltar para a seção principal
           setAvatarPreview(null);
           setAvatarSuccess(false);
           setActiveSection("main");
@@ -236,7 +216,7 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
           type="file"
           accept="image/png, image/jpeg, image/gif"
           ref={inputRef}
-          onChange={(e) => handleFileChange(e)}
+          onChange={handleFileChange}
           style={{ display: "none" }}
         />
 
@@ -255,8 +235,7 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
   };
 
   return (
-    <div className="popup-overlay" /* O overlay é clicável */>
-      {/* ✅ Adicionado a ref ao div 'popup' */}
+    <div className="popup-overlay">
       <div className="popup" ref={popupRef}>
         <button className="close-button" onClick={() => {
           onClose();

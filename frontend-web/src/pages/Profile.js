@@ -2,32 +2,24 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import "./Profile.css";
-// import SettingsPopup from "../components/SettingsPopup"; // ✅ Removido, SettingsPopup agora é renderizado no App.js
 import TaskListBox from "../components/TaskListBox";
 import SavedTaskList from "../components/SavedTaskList"; 
 import TaskListReview from "../components/TaskListReview";
-import api from "../services/api"; // ✅ ALTERADO: Importa a instância 'api'
-// import axios from "axios"; // ❌ REMOVIDO: Não precisamos mais do axios direto
+import api from "../services/api";
 import headerGif from "../assets/header-img.png";
 import savedTaskListCodeString from '../components/SavedTaskList.js?raw';
 import ClassListOrder from '../components/ClassListOrder';
 
-// ✅ Componente Profile agora recebe props do App.js
 const Profile = ({ 
   username, 
   setUsername, 
   profileImage, 
   setProfileImage, 
-  showPopup, // Usar prop do App.js
-  setShowPopup, // Usar prop do App.js
-  popupSection, // Usar prop do App.js
-  setPopupSection // Usar prop do App.js
+  showPopup, 
+  setShowPopup, 
+  popupSection, 
+  setPopupSection 
 }) => {
-  // const [showPopup, setShowPopup] = useState(false); // ❌ REMOVIDO: Vem via props
-  // const [popupSection, setPopupSection] = useState("main"); // ❌ REMOVIDO: Vem via props
-  // const [profileImage, setProfileImage] = useState(null); // ❌ REMOVIDO: Vem via props
-  // const [username, setUsername] = useState(localStorage.getItem('username') || ''); // ❌ REMOVIDO: Vem via props
-
   const [showListBox, setShowListBox] = useState(false);
   const [savedLists, setSavedLists] = useState([]); 
   const [selectedList, setSelectedList] = useState(null); 
@@ -36,36 +28,27 @@ const Profile = ({
 
   const token = localStorage.getItem("token");
 
-  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; // ❌ REMOVIDO: Usaremos a instância 'api'
-
   // Função para buscar o perfil do usuário
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // ✅ ALTERADO: Usando 'api.get' e URL relativa
-        const res = await api.get(`/auth/profile`); // O token já é adicionado pelo interceptor em api.js
+        const res = await api.get(`/auth/profile`);
 
-        // setUsername(res.data.username); // ❌ REMOVIDO: Username já é gerenciado no App.js via JWT
-        if (res.data.profileImage) {
-          // ✅ Corrigido para usar a baseURL configurada no api.js para a imagem
-          // Se o backend retorna um caminho relativo como '/uploads/...'
-          // precisamos prefixar com a baseURL.
-          // Assumindo que o `api` já tem a baseURL correta,
-          // `api.defaults.baseURL` é a forma de acessá-la.
-          setProfileImage(`${api.defaults.baseURL.replace('/api', '')}${res.data.profileImage}`);
+        if (res.data.profileImage) { // res.data.profileImage é '/uploads/avatars/nome_da_imagem.jpg' do backend
+          // ✅ CORREÇÃO AQUI: Adiciona o prefixo /api para que o Nginx encaminhe corretamente
+          // api.defaults.baseURL já é 'https://todolistapp22.duckdns.org/api'
+          setProfileImage(`${api.defaults.baseURL}${res.data.profileImage}`); // Resulta em: https://todolistapp22.duckdns.org/api/uploads/avatars/nome_da_imagem.jpg
         } else {
           setProfileImage(null);
         }
       } catch (err) {
         console.error('Erro ao carregar perfil:', err);
-        // Opcional: toast.error('Erro ao carregar dados do perfil.');
       }
     };
 
     if (token) fetchProfile();
-  }, [token, setProfileImage]); // Dependências ajustadas
+  }, [token, setProfileImage]);
 
-  // ✅ Função para carregar as listas do backend
   const fetchTaskLists = useCallback(async () => {
     setLoadingLists(true);
     setErrorLists(null); 
@@ -74,8 +57,7 @@ const Profile = ({
         throw new Error("Token de autenticação não encontrado. Faça login novamente.");
       }
 
-      // ✅ ALTERADO: Usando 'api.get' e URL relativa
-      const response = await api.get('/tasklists'); // O token já é adicionado pelo interceptor em api.js
+      const response = await api.get('/tasklists');
       setSavedLists(response.data); 
     } catch (error) {
       console.error("Erro ao carregar listas de tarefas:", error);
@@ -83,30 +65,26 @@ const Profile = ({
     } finally {
       setLoadingLists(false);
     }
-  }, [token]); // Dependências ajustadas, API_URL não é mais necessária
+  }, [token]);
 
-  // ✅ NOVO useEffect para carregar as listas quando o componente montar ou token mudar
   useEffect(() => {
     if (token) {
       fetchTaskLists();
     }
   }, [token, fetchTaskLists]); 
 
-  // Função para ser chamada quando uma lista é salva com sucesso no TaskListBox
   const handleTaskListSavedSuccess = () => { 
     setShowListBox(false); 
-    fetchTaskLists(); // Recarrega as listas após o salvamento
+    fetchTaskLists();
   };
 
-  // Funções de manipulação de listas
   const handleUpdateList = useCallback(async (updatedListFromChild) => {
     try {
-      // ✅ ALTERADO: Usando 'api.put' e URL relativa
       const res = await api.put(
         `/tasklists/${updatedListFromChild._id}`, 
         updatedListFromChild
-      ); // O token já é adicionado pelo interceptor
-
+      );
+      
       setSavedLists(prevLists => 
         prevLists.map((l) => (l._id === res.data.taskList._id ? res.data.taskList : l))
       );
@@ -118,12 +96,11 @@ const Profile = ({
     } catch (err) {
       console.error("Erro ao atualizar lista:", err.response?.data || err);
     }
-  }, [fetchTaskLists]); // Dependências ajustadas
+  }, [fetchTaskLists]);
 
   const handleDeleteList = useCallback(async (listId) => {
     try {
-      // ✅ ALTERADO: Usando 'api.delete' e URL relativa
-      await api.delete(`/tasklists/${listId}`); // O token já é adicionado pelo interceptor
+      await api.delete(`/tasklists/${listId}`);
       
       setSavedLists(prevLists => prevLists.filter((l) => l._id !== listId));
       
@@ -134,9 +111,8 @@ const Profile = ({
     } catch (err) {
       console.error("Erro ao deletar lista:", err.response?.data || err);
     }
-  }, [fetchTaskLists]); // Dependências ajustadas
+  }, [fetchTaskLists]);
 
-  // ✅ NOVA LÓGICA DE ORDENAÇÃO (mantida inalterada, já estava correta)
   const sortedLists = useMemo(() => {
     const listsCopy = [...savedLists]; 
 
@@ -175,7 +151,6 @@ const Profile = ({
 
   return (
     <div className="profile-page">
-      {/* Seção do Perfil do Usuário */}
       <section className="profile-wrapper">
         <div className="profile-banner">
           <img src={headerGif} alt="Banner do perfil" />
@@ -183,8 +158,8 @@ const Profile = ({
 
         <div className="profile-picture"
           onClick={() => {
-            setPopupSection("avatar"); // ✅ Usando a prop setPopupSection
-            setShowPopup(true); // ✅ Usando a prop setShowPopup
+            setPopupSection("avatar");
+            setShowPopup(true);
           }}
           style={{ cursor: "pointer" }}
         >
@@ -195,13 +170,13 @@ const Profile = ({
           )}
         </div>
 
-        <div className="profile-username">{username}</div> {/* ✅ Usando username da prop */}
+        <div className="profile-username">{username}</div>
 
         <div
           className="upload-icon"
           onClick={() => {
-            setPopupSection("main"); // ✅ Usando a prop setPopupSection
-            setShowPopup(true); // ✅ Usando a prop setShowPopup
+            setPopupSection("main");
+            setShowPopup(true);
           }}
         >
           <FiMoreHorizontal size={24} color="#fff" />
@@ -237,7 +212,6 @@ const Profile = ({
           <p className="no-lists-text">Adicione suas listas aqui.</p>
         )}
 
-        {/* ✅ Renderiza as listas ORDENADAS */}
         {!loadingLists && !errorLists && sortedLists.map((list) => (
           <SavedTaskList
             key={list._id}
@@ -248,16 +222,6 @@ const Profile = ({
           />
         ))}
       </section>
-
-      {/* ❌ REMOVIDO: SettingsPopup agora é renderizado no App.js e não mais aqui
-      {showPopup && (
-        <SettingsPopup
-          onClose={() => setShowPopup(false)}
-          username={username}
-          setUsername={setUsername}
-          setProfileImage={setProfileImage}
-        />
-      )} */}
 
       {selectedList && ( 
         <TaskListReview
