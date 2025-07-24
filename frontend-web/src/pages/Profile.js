@@ -11,10 +11,10 @@ import savedTaskListCodeString from '../components/SavedTaskList.js?raw';
 import ClassListOrder from '../components/ClassListOrder';
 
 const Profile = ({ 
-  username, 
-  setUsername, 
-  profileImage, 
-  setProfileImage, 
+  username, // ✅ Manter username como prop
+  setUsername, // ✅ Manter setUsername como prop
+  profileImage, // ✅ Manter profileImage como prop
+  setProfileImage, // ✅ Manter setProfileImage como prop
   showPopup, 
   setShowPopup, 
   popupSection, 
@@ -28,31 +28,47 @@ const Profile = ({
 
   const token = localStorage.getItem("token");
 
-  // ❌ REMOVIDO: Este useEffect que buscava o perfil do usuário.
-  // A imagem de perfil e o nome de usuário agora são gerenciados pelo App.js (via localStorage)
-  // e pelo SettingsPopup (ao fazer upload).
-  // O Profile.js apenas exibe as props 'profileImage' e 'username' que recebe.
-  /*
+  // ✅ REINTRODUZIDO: Função para buscar o perfil do usuário (username e profileImage)
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const res = await api.get(`/auth/profile`);
+        
+        // Atualiza o username no estado global (App.js)
+        if (res.data.username) {
+          setUsername(res.data.username);
+          localStorage.setItem('username', res.data.username); // Opcional: manter no localStorage para carregamento rápido
+        }
 
-        if (res.data.profileImage) {
-          setProfileImage(`${api.defaults.baseURL}${res.data.profileImage}`);
+        // Atualiza a profileImage no estado global (App.js)
+        if (res.data.profileImage) { 
+          const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
+          setProfileImage(fullImageUrl);
+          localStorage.setItem('profileImage', fullImageUrl); // Opcional: manter no localStorage para carregamento rápido
         } else {
           setProfileImage(null);
+          localStorage.removeItem('profileImage');
         }
-        // Se o username também for retornado aqui, ele sobrescreveria o do App.js
-        // setUsername(res.data.username); // Se esta linha existisse, também seria um problema
       } catch (err) {
         console.error('Erro ao carregar perfil:', err);
+        // Em caso de erro, limpa os dados para evitar exibir informações incorretas
+        setUsername('');
+        setProfileImage(null);
+        localStorage.removeItem('username');
+        localStorage.removeItem('profileImage');
       }
     };
 
-    if (token) fetchProfile();
-  }, [token, setProfileImage]);
-  */
+    if (token) {
+      fetchProfile();
+    } else {
+      // Limpa os dados se não houver token (usuário deslogado)
+      setUsername('');
+      setProfileImage(null);
+      localStorage.removeItem('username');
+      localStorage.removeItem('profileImage');
+    }
+  }, [token, setUsername, setProfileImage]); // Dependências: token, setUsername e setProfileImage
 
   const fetchTaskLists = useCallback(async () => {
     setLoadingLists(true);

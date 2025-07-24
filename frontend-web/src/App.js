@@ -10,13 +10,13 @@ import Home from './pages/Home';
 import SettingsPopup from './components/SettingsPopup';
 import { Toaster } from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode';
-import api from './services/api'; // ✅ NOVO: Importa a instância 'api' para fazer a requisição de perfil
+// import api from './services/api'; // ❌ REMOVIDO: Não precisamos mais do api aqui para buscar perfil
 
 function App() {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
   const [popupSection, setPopupSection] = useState('main');
   const [username, setUsername] = useState('');
-  const [profileImage, setProfileImage] = useState(null); // Estado para a imagem de perfil
+  const [profileImage, setProfileImage] = useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -27,39 +27,17 @@ function App() {
         const decodedToken = jwtDecode(token);
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsLoggedIn(true);
-          setUsername(decodedToken.username || '');
-          
-          // ✅ ADICIONADO/REFORÇADO: Carrega a profileImage do localStorage na inicialização do App
-          const storedProfileImage = localStorage.getItem('profileImage');
-          if (storedProfileImage) {
-            setProfileImage(storedProfileImage);
-          } else {
-            // Se não houver imagem no localStorage, tenta buscar do backend
-            // Isso cobre o caso de um login recente onde a imagem ainda não foi salva no localStorage
-            const fetchProfileImageOnAppMount = async () => {
-              try {
-                const res = await api.get(`/auth/profile`);
-                if (res.data.profileImage) {
-                  const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
-                  setProfileImage(fullImageUrl);
-                  localStorage.setItem('profileImage', fullImageUrl); // Salva para futuras recargas
-                } else {
-                  setProfileImage(null);
-                  localStorage.removeItem('profileImage');
-                }
-              } catch (err) {
-                console.error('Erro ao carregar profileImage na montagem do App:', err);
-                setProfileImage(null);
-                localStorage.removeItem('profileImage');
-              }
-            };
-            fetchProfileImageOnAppMount();
-          }
-
+          // ✅ REMOVIDO: Carregamento de username e profileImage do localStorage aqui.
+          // O Profile.js agora será responsável por buscar essas informações do backend.
+          // setUsername(decodedToken.username || ''); 
+          // const storedProfileImage = localStorage.getItem('profileImage');
+          // if (storedProfileImage) {
+          //   setProfileImage(storedProfileImage);
+          // }
         } else {
           localStorage.removeItem('token');
           localStorage.removeItem('username');
-          localStorage.removeItem('profileImage'); // Limpa também a imagem
+          localStorage.removeItem('profileImage');
           setIsLoggedIn(false);
           setUsername('');
           setProfileImage(null);
@@ -68,7 +46,7 @@ function App() {
         console.error("Erro ao decodificar token ou token inválido:", error);
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        localStorage.removeItem('profileImage'); // Limpa também a imagem
+        localStorage.removeItem('profileImage');
         setIsLoggedIn(false);
         setUsername('');
         setProfileImage(null);
@@ -78,36 +56,21 @@ function App() {
       setUsername('');
       setProfileImage(null);
     }
-  }, []);
+  }, []); // As dependências vazias ([]) garantem que ele roda apenas uma vez na montagem.
 
-  const handleLoginSuccess = useCallback(async (token) => { // ✅ ADICIONADO 'async'
+  const handleLoginSuccess = useCallback((token) => { // ✅ REMOVIDO 'async'
     localStorage.setItem('token', token);
     
     try {
       const decodedToken = jwtDecode(token);
       const extractedUsername = decodedToken.username || '';
-      localStorage.setItem('username', extractedUsername);
-      setUsername(extractedUsername);
+      localStorage.setItem('username', extractedUsername); // ✅ Mantém salvando o username
+      setUsername(extractedUsername); // ✅ Mantém atualizando o username
       setIsLoggedIn(true);
 
-      // ✅ ADICIONADO: Busca a imagem de perfil do backend APÓS o login bem-sucedido
-      // Isso garante que a imagem seja carregada e persistida no localStorage
-      // imediatamente após o login, sem depender de um upload ou recarga.
-      try {
-        const res = await api.get(`/auth/profile`);
-        if (res.data.profileImage) {
-          const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
-          setProfileImage(fullImageUrl);
-          localStorage.setItem('profileImage', fullImageUrl); // Salva para futuras recargas
-        } else {
-          setProfileImage(null);
-          localStorage.removeItem('profileImage');
-        }
-      } catch (err) {
-        console.error('Erro ao buscar profileImage após login:', err);
-        setProfileImage(null);
-        localStorage.removeItem('profileImage');
-      }
+      // ❌ REMOVIDO: Lógica de busca de profileImage após login.
+      // Agora o Profile.js fará essa busca quando for montado.
+      // try { ... } catch (err) { ... }
 
     } catch (error) {
       console.error("Erro ao decodificar token no login:", error);
@@ -123,7 +86,7 @@ function App() {
   const handleLogout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    localStorage.removeItem('profileImage'); // Limpa também a imagem ao fazer logout
+    localStorage.removeItem('profileImage');
     setUsername('');
     setProfileImage(null);
     setIsLoggedIn(false);

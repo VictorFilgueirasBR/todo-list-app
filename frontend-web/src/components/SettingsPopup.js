@@ -51,7 +51,7 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
       );
       if (res.status === 200) {
         setUsername(newUsername);
-        localStorage.setItem('username', newUsername);
+        localStorage.setItem('username', newUsername); // Mantém salvando o username aqui
         toast.success("Nome de usuário atualizado com sucesso!");
         setActiveSection("main");
         if(setInitialSection) setInitialSection("main");
@@ -123,7 +123,8 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
         if (imagePath) {
           const fullImageUrl = `${api.defaults.baseURL}${imagePath}`;
           setProfileImage(fullImageUrl); // Atualiza o estado no App.js
-          localStorage.setItem('profileImage', fullImageUrl); // ✅ ADICIONADO: Salva a URL completa no localStorage
+          // ❌ REMOVIDO: Não salva mais profileImage no localStorage aqui.
+          // O Profile.js agora será responsável por buscar a imagem atualizada.
           toast.success("Avatar enviado com sucesso!");
           setAvatarPreview(null);
           setAvatarSuccess(false);
