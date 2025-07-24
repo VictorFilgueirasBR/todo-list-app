@@ -46,7 +46,7 @@ const Profile = ({
         // ✅ CORREÇÃO FINAL: Adiciona um parâmetro de consulta de timestamp para evitar cache
         if (res.data.avatar) { 
           const timestamp = new Date().getTime(); // Gera um timestamp único
-          const fullImageUrl = `${api.defaults.baseURL}${res.data.avatar}?t=${timestamp}`; // <-- LINHA CORRIGIDA
+          const fullImageUrl = `${api.defaults.baseURL}/uploads/avatars/${res.data.avatar}?t=${timestamp}`; // <-- LINHA CORRIGIDA
           setProfileImage(fullImageUrl);
           localStorage.setItem('profileImage', fullImageUrl); // Armazena a URL com timestamp
           // console.log("Profile.js useEffect: Imagem de perfil definida (com cache-busting):", fullImageUrl); // Removido log de depuração
