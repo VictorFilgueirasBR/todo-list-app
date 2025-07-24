@@ -43,10 +43,9 @@ const Profile = ({
           console.log("Profile.js useEffect: Username definido:", res.data.username);
         }
 
-        // Atualiza a profileImage no estado global (App.js)
-        // res.data.profileImage virá do backend como /uploads/avatars/nome_da_imagem.png
-        if (res.data.profileImage) { 
-          const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
+        // ✅ CORREÇÃO AQUI: Altera de res.data.profileImage para res.data.avatar
+        if (res.data.avatar) { 
+          const fullImageUrl = `${api.defaults.baseURL}${res.data.avatar}`;
           setProfileImage(fullImageUrl);
           localStorage.setItem('profileImage', fullImageUrl);
           console.log("Profile.js useEffect: Imagem de perfil definida:", fullImageUrl);
@@ -177,7 +176,7 @@ const Profile = ({
     });
   }, [savedLists]);
 
-  // ✅ NOVO LOG: Loga o valor da prop profileImage antes da renderização
+  // Logs de depuração podem ser removidos após a correção
   console.log("Profile.js Render: profileImage prop atual:", profileImage);
   console.log("Profile.js Render: username prop atual:", username);
 
