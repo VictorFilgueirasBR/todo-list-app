@@ -121,9 +121,9 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
       if (res.status === 200) {
         const imagePath = res.data.avatar; // Ex: /uploads/avatars/nome_da_imagem.jpg
         if (imagePath) {
-          // ✅ CORREÇÃO AQUI: Adiciona o prefixo /api para que o Nginx encaminhe corretamente
-          // api.defaults.baseURL já é 'https://todolistapp22.duckdns.org/api'
-          setProfileImage(`${api.defaults.baseURL}${imagePath}`); // Resulta em: https://todolistapp22.duckdns.org/api/uploads/avatars/nome_da_imagem.jpg
+          const fullImageUrl = `${api.defaults.baseURL}${imagePath}`;
+          setProfileImage(fullImageUrl); // Atualiza o estado no App.js
+          localStorage.setItem('profileImage', fullImageUrl); // ✅ ADICIONADO: Salva a URL completa no localStorage
           toast.success("Avatar enviado com sucesso!");
           setAvatarPreview(null);
           setAvatarSuccess(false);
