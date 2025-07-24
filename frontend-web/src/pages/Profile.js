@@ -31,29 +31,29 @@ const Profile = ({
   // Função para buscar o perfil do usuário
   useEffect(() => {
     const fetchProfile = async () => {
-      console.log("Profile.js useEffect: Iniciando fetchProfile...");
+      // console.log("Profile.js useEffect: Iniciando fetchProfile..."); // Removido log de depuração
       try {
         const res = await api.get(`/auth/profile`);
-        console.log("Profile.js useEffect: Resposta da API de perfil:", res.data);
+        // console.log("Profile.js useEffect: Resposta da API de perfil:", res.data); // Removido log de depuração
 
         // Atualiza o username no estado global (App.js)
         if (res.data.username) {
           setUsername(res.data.username);
           localStorage.setItem('username', res.data.username);
-          console.log("Profile.js useEffect: Username definido:", res.data.username);
+          // console.log("Profile.js useEffect: Username definido:", res.data.username); // Removido log de depuração
         }
 
         // ✅ CORREÇÃO FINAL: Adiciona um parâmetro de consulta de timestamp para evitar cache
         if (res.data.avatar) { 
           const timestamp = new Date().getTime(); // Gera um timestamp único
-          const fullImageUrl = `${api.defaults.baseURL}${res.data.avatar}?t=${timestamp}`; // <-- LINHA MODIFICADA
+          const fullImageUrl = `${api.defaults.baseURL}${res.data.avatar}?t=${timestamp}`; // <-- LINHA CORRIGIDA
           setProfileImage(fullImageUrl);
           localStorage.setItem('profileImage', fullImageUrl); // Armazena a URL com timestamp
-          console.log("Profile.js useEffect: Imagem de perfil definida (com cache-busting):", fullImageUrl);
+          // console.log("Profile.js useEffect: Imagem de perfil definida (com cache-busting):", fullImageUrl); // Removido log de depuração
         } else {
           setProfileImage(null);
           localStorage.removeItem('profileImage');
-          console.log("Profile.js useEffect: Nenhuma imagem de perfil retornada ou vazia.");
+          // console.log("Profile.js useEffect: Nenhuma imagem de perfil retornada ou vazia."); // Removido log de depuração
         }
       } catch (err) {
         console.error('Profile.js useEffect: Erro ao carregar perfil:', err);
@@ -66,10 +66,10 @@ const Profile = ({
     };
 
     if (token) {
-      console.log("Profile.js useEffect: Token presente, chamando fetchProfile.");
+      // console.log("Profile.js useEffect: Token presente, chamando fetchProfile."); // Removido log de depuração
       fetchProfile();
     } else {
-      console.log("Profile.js useEffect: Nenhum token, limpando dados do perfil.");
+      // console.log("Profile.js useEffect: Nenhum token, limpando dados do perfil."); // Removido log de depuração
       setUsername('');
       setProfileImage(null);
       localStorage.removeItem('username');
@@ -178,8 +178,8 @@ const Profile = ({
   }, [savedLists]);
 
   // Logs de depuração podem ser removidos após a correção
-  console.log("Profile.js Render: profileImage prop atual:", profileImage);
-  console.log("Profile.js Render: username prop atual:", username);
+  // console.log("Profile.js Render: profileImage prop atual:", profileImage); // Removido log de depuração
+  // console.log("Profile.js Render: username prop atual:", username); // Removido log de depuração
 
   return (
     <div className="profile-page">
