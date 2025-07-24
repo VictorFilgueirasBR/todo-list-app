@@ -28,10 +28,32 @@ const Profile = ({
 
   const token = localStorage.getItem("token");
 
-  // REMOVIDO: O useEffect que buscava o perfil do usuário.
-  // A imagem de perfil agora é gerenciada pelo App.js (via localStorage)
-  // e pelo SettingsPopup (ao fazer upload).
-  // O Profile.js apenas exibe a prop 'profileImage' que recebe.
+  // Função para buscar o perfil do usuário
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get(`/auth/profile`);
+
+        if (res.data.profileImage) { // res.data.profileImage é '/uploads/avatars/nome_da_imagem.jpg' do backend
+          // ✅ CORREÇÃO AQUI: Garante que a URL da imagem sempre comece com /api/
+          // Isso é crucial para o Nginx encaminhar corretamente.
+          // api.defaults.baseURL já é 'https://todolistapp22.duckdns.org/api'
+          // res.data.profileImage é '/uploads/avatars/nome_da_imagem.jpg'
+          // A junção deve ser feita com cuidado para não duplicar barras ou prefixos.
+          // Se res.data.profileImage já vem com uma barra inicial, basta concatenar.
+          // Ex: https://todolistapp22.duckdns.org/api + /uploads/avatars/nome.jpg
+          setProfileImage(`${api.defaults.baseURL}${res.data.profileImage}`);
+        } else {
+          setProfileImage(null);
+        }
+      } catch (err) {
+        console.error('Erro ao carregar perfil:', err);
+        // Opcional: setProfileImage(null); para garantir que a imagem não apareça se houver erro
+      }
+    };
+
+    if (token) fetchProfile();
+  }, [token, setProfileImage]); // Dependências: token e setProfileImage
 
   const fetchTaskLists = useCallback(async () => {
     setLoadingLists(true);
@@ -49,7 +71,7 @@ const Profile = ({
     } finally {
       setLoadingLists(false);
     }
-  }, [token]);
+  }, [token]); // Dependências: token
 
   useEffect(() => {
     if (token) {
