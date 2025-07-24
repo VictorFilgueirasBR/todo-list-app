@@ -3,12 +3,14 @@ body {
   padding: 0;
   background-color: #121212; /* fundo escuro global */
   color: #f5f5f5; /* cor de texto padrão */
-  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+  font-family: 'Montserrat', -apple-system, BlinkMacMacSystemFont, 'Segoe UI', 'Roboto',
     'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  /* ✅ ADICIONADO: Remove o destaque de toque padrão em navegadores WebKit */
+  -webkit-tap-highlight-color: transparent; 
 }
 
 code {
