@@ -11,10 +11,10 @@ import savedTaskListCodeString from '../components/SavedTaskList.js?raw';
 import ClassListOrder from '../components/ClassListOrder';
 
 const Profile = ({ 
-  username, // ✅ Manter username como prop
-  setUsername, // ✅ Manter setUsername como prop
-  profileImage, // ✅ Manter profileImage como prop
-  setProfileImage, // ✅ Manter setProfileImage como prop
+  username, 
+  setUsername, 
+  profileImage, 
+  setProfileImage, 
   showPopup, 
   setShowPopup, 
   popupSection, 
@@ -28,29 +28,35 @@ const Profile = ({
 
   const token = localStorage.getItem("token");
 
-  // ✅ REINTRODUZIDO: Função para buscar o perfil do usuário (username e profileImage)
+  // Função para buscar o perfil do usuário
   useEffect(() => {
     const fetchProfile = async () => {
+      console.log("Profile.js useEffect: Iniciando fetchProfile...");
       try {
         const res = await api.get(`/auth/profile`);
-        
+        console.log("Profile.js useEffect: Resposta da API de perfil:", res.data);
+
         // Atualiza o username no estado global (App.js)
         if (res.data.username) {
           setUsername(res.data.username);
-          localStorage.setItem('username', res.data.username); // Opcional: manter no localStorage para carregamento rápido
+          localStorage.setItem('username', res.data.username);
+          console.log("Profile.js useEffect: Username definido:", res.data.username);
         }
 
         // Atualiza a profileImage no estado global (App.js)
+        // res.data.profileImage virá do backend como /uploads/avatars/nome_da_imagem.png
         if (res.data.profileImage) { 
           const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
           setProfileImage(fullImageUrl);
-          localStorage.setItem('profileImage', fullImageUrl); // Opcional: manter no localStorage para carregamento rápido
+          localStorage.setItem('profileImage', fullImageUrl);
+          console.log("Profile.js useEffect: Imagem de perfil definida:", fullImageUrl);
         } else {
           setProfileImage(null);
           localStorage.removeItem('profileImage');
+          console.log("Profile.js useEffect: Nenhuma imagem de perfil retornada ou vazia.");
         }
       } catch (err) {
-        console.error('Erro ao carregar perfil:', err);
+        console.error('Profile.js useEffect: Erro ao carregar perfil:', err);
         // Em caso de erro, limpa os dados para evitar exibir informações incorretas
         setUsername('');
         setProfileImage(null);
@@ -60,9 +66,10 @@ const Profile = ({
     };
 
     if (token) {
+      console.log("Profile.js useEffect: Token presente, chamando fetchProfile.");
       fetchProfile();
     } else {
-      // Limpa os dados se não houver token (usuário deslogado)
+      console.log("Profile.js useEffect: Nenhum token, limpando dados do perfil.");
       setUsername('');
       setProfileImage(null);
       localStorage.removeItem('username');
@@ -169,6 +176,10 @@ const Profile = ({
       return createdAtB.getTime() - createdAtA.getTime();
     });
   }, [savedLists]);
+
+  // ✅ NOVO LOG: Loga o valor da prop profileImage antes da renderização
+  console.log("Profile.js Render: profileImage prop atual:", profileImage);
+  console.log("Profile.js Render: username prop atual:", username);
 
   return (
     <div className="profile-page">
