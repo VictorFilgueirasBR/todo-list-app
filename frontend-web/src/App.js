@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import SettingsPopup from './components/SettingsPopup';
 import { Toaster } from 'react-hot-toast';
 import { jwtDecode } from 'jwt-decode';
+import api from './services/api'; // ✅ NOVO: Importa a instância 'api' para fazer a requisição de perfil
 
 function App() {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
@@ -27,11 +28,34 @@ function App() {
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsLoggedIn(true);
           setUsername(decodedToken.username || '');
-          // ✅ ADICIONADO: Carrega a profileImage do localStorage na inicialização do App
+          
+          // ✅ ADICIONADO/REFORÇADO: Carrega a profileImage do localStorage na inicialização do App
           const storedProfileImage = localStorage.getItem('profileImage');
           if (storedProfileImage) {
             setProfileImage(storedProfileImage);
+          } else {
+            // Se não houver imagem no localStorage, tenta buscar do backend
+            // Isso cobre o caso de um login recente onde a imagem ainda não foi salva no localStorage
+            const fetchProfileImageOnAppMount = async () => {
+              try {
+                const res = await api.get(`/auth/profile`);
+                if (res.data.profileImage) {
+                  const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
+                  setProfileImage(fullImageUrl);
+                  localStorage.setItem('profileImage', fullImageUrl); // Salva para futuras recargas
+                } else {
+                  setProfileImage(null);
+                  localStorage.removeItem('profileImage');
+                }
+              } catch (err) {
+                console.error('Erro ao carregar profileImage na montagem do App:', err);
+                setProfileImage(null);
+                localStorage.removeItem('profileImage');
+              }
+            };
+            fetchProfileImageOnAppMount();
           }
+
         } else {
           localStorage.removeItem('token');
           localStorage.removeItem('username');
@@ -56,7 +80,7 @@ function App() {
     }
   }, []);
 
-  const handleLoginSuccess = useCallback((token) => {
+  const handleLoginSuccess = useCallback(async (token) => { // ✅ ADICIONADO 'async'
     localStorage.setItem('token', token);
     
     try {
@@ -65,8 +89,26 @@ function App() {
       localStorage.setItem('username', extractedUsername);
       setUsername(extractedUsername);
       setIsLoggedIn(true);
-      // Ao fazer login, a imagem de perfil será buscada pelo Profile.js
-      // Não precisamos salvá-la aqui, pois o Profile.js já a definirá no estado global.
+
+      // ✅ ADICIONADO: Busca a imagem de perfil do backend APÓS o login bem-sucedido
+      // Isso garante que a imagem seja carregada e persistida no localStorage
+      // imediatamente após o login, sem depender de um upload ou recarga.
+      try {
+        const res = await api.get(`/auth/profile`);
+        if (res.data.profileImage) {
+          const fullImageUrl = `${api.defaults.baseURL}${res.data.profileImage}`;
+          setProfileImage(fullImageUrl);
+          localStorage.setItem('profileImage', fullImageUrl); // Salva para futuras recargas
+        } else {
+          setProfileImage(null);
+          localStorage.removeItem('profileImage');
+        }
+      } catch (err) {
+        console.error('Erro ao buscar profileImage após login:', err);
+        setProfileImage(null);
+        localStorage.removeItem('profileImage');
+      }
+
     } catch (error) {
       console.error("Erro ao decodificar token no login:", error);
       localStorage.removeItem('token');
@@ -121,8 +163,8 @@ function App() {
                 setPopupSection={setPopupSection}
                 username={username}
                 setUsername={setUsername}
-                profileImage={profileImage} // Passa o estado profileImage do App.js
-                setProfileImage={setProfileImage} // Passa o setter para o Profile.js atualizar
+                profileImage={profileImage}
+                setProfileImage={setProfileImage}
               />
             </PrivateRoute>
           }
@@ -134,8 +176,8 @@ function App() {
           onClose={() => setShowSettingsPopup(false)}
           username={username}
           setUsername={setUsername}
-          profileImage={profileImage} // Passa a imagem atual para o popup
-          setProfileImage={setProfileImage} // Passa o setter para o popup atualizar
+          profileImage={profileImage}
+          setProfileImage={setProfileImage}
           initialSection={popupSection}
           setInitialSection={setPopupSection}
         />
