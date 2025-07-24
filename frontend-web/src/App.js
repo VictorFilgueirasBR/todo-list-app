@@ -15,58 +15,46 @@ function App() {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false);
   const [popupSection, setPopupSection] = useState('main');
   const [username, setUsername] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null); // Estado para a imagem de perfil
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    console.log("App.js useEffect: Iniciando carregamento de dados...");
     const token = localStorage.getItem('token');
-    console.log("App.js useEffect: Token do localStorage:", token);
-
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        console.log("App.js useEffect: Token decodificado:", decodedToken);
-
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsLoggedIn(true);
-          const extractedUsername = decodedToken.username || '';
-          setUsername(extractedUsername);
-          console.log("App.js useEffect: Nome de usuário definido do token:", extractedUsername);
-
+          setUsername(decodedToken.username || '');
+          // ✅ ADICIONADO: Carrega a profileImage do localStorage na inicialização do App
           const storedProfileImage = localStorage.getItem('profileImage');
           if (storedProfileImage) {
             setProfileImage(storedProfileImage);
-            console.log("App.js useEffect: Imagem de perfil definida do localStorage:", storedProfileImage);
-          } else {
-            console.log("App.js useEffect: Nenhuma imagem de perfil encontrada no localStorage.");
           }
         } else {
-          console.log("App.js useEffect: Token expirado. Limpando dados.");
           localStorage.removeItem('token');
           localStorage.removeItem('username');
-          localStorage.removeItem('profileImage');
+          localStorage.removeItem('profileImage'); // Limpa também a imagem
           setIsLoggedIn(false);
           setUsername('');
           setProfileImage(null);
         }
       } catch (error) {
-        console.error("App.js useEffect: Erro ao decodificar token ou token inválido:", error);
+        console.error("Erro ao decodificar token ou token inválido:", error);
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        localStorage.removeItem('profileImage');
+        localStorage.removeItem('profileImage'); // Limpa também a imagem
         setIsLoggedIn(false);
         setUsername('');
         setProfileImage(null);
       }
     } else {
-      console.log("App.js useEffect: Nenhum token encontrado no localStorage.");
       setIsLoggedIn(false);
       setUsername('');
       setProfileImage(null);
     }
-  }, []); // As dependências vazias ([]) garantem que ele roda apenas uma vez na montagem.
+  }, []);
 
   const handleLoginSuccess = useCallback((token) => {
     localStorage.setItem('token', token);
@@ -93,7 +81,7 @@ function App() {
   const handleLogout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    localStorage.removeItem('profileImage');
+    localStorage.removeItem('profileImage'); // Limpa também a imagem ao fazer logout
     setUsername('');
     setProfileImage(null);
     setIsLoggedIn(false);
@@ -133,8 +121,8 @@ function App() {
                 setPopupSection={setPopupSection}
                 username={username}
                 setUsername={setUsername}
-                profileImage={profileImage}
-                setProfileImage={setProfileImage}
+                profileImage={profileImage} // Passa o estado profileImage do App.js
+                setProfileImage={setProfileImage} // Passa o setter para o Profile.js atualizar
               />
             </PrivateRoute>
           }
@@ -146,8 +134,8 @@ function App() {
           onClose={() => setShowSettingsPopup(false)}
           username={username}
           setUsername={setUsername}
-          profileImage={profileImage}
-          setProfileImage={setProfileImage}
+          profileImage={profileImage} // Passa a imagem atual para o popup
+          setProfileImage={setProfileImage} // Passa o setter para o popup atualizar
           initialSection={popupSection}
           setInitialSection={setPopupSection}
         />
