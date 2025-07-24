@@ -59,7 +59,7 @@
   display: flex;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #ffffffb6;
 }
 
@@ -82,9 +82,9 @@
 
 
 .action-customize-icon {
-  top: 1.2rem;
+  top: 0.5rem;
   right: 1.2rem;
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #fff;
   cursor: pointer;
 }
@@ -98,7 +98,7 @@
 
 /* Descrição */
 .saved-task-description {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #ccc;
   margin: 0;
   white-space: normal;            /* quebra o texto normalmente */
@@ -128,6 +128,8 @@
   font-weight: bold;
   background: transparent;
 }
+
+.action-customize-icon 
 
 /* Scroll bonito */
 .saved-items::-webkit-scrollbar {
