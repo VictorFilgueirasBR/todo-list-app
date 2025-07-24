@@ -1,6 +1,7 @@
 // src/components/SettingsPopup.js
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios"; // ❌ REMOVIDO: Não precisamos mais do axios direto
+import api from "../services/api"; // ✅ ALTERADO: Importa a instância 'api'
 import { FiX, FiUpload, FiUser, FiTrash } from "react-icons/fi";
 import toast from 'react-hot-toast';
 import "./SettingsPopup.css";
@@ -9,7 +10,6 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
   const [activeSection, setActiveSection] = useState(initialSection || "main");
   const [newUsername, setNewUsername] = useState(username || '');
 
-  // ✅ Nova referência para o conteúdo do popup
   const popupRef = useRef(null);
 
   useEffect(() => {
@@ -53,19 +53,16 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
   const [avatarLoading, setAvatarLoading] = useState(false);
   const avatarInputRef = useRef(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"; // ❌ REMOVIDO: Usaremos a instância 'api'
 
   const handleUsernameSave = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.put(
-        `${API_URL}/api/profile/username`,
-        { username: newUsername },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      // const token = localStorage.getItem("token"); // Token já é adicionado pelo interceptor
+      // ✅ ALTERADO: Usando 'api.put' e URL relativa
+      const res = await api.put(
+        '/profile/username', // URL relativa, o prefixo /api é adicionado pela baseURL do axios
+        { username: newUsername }
+        // { headers: { Authorization: `Bearer ${token}` } } // Token já é adicionado pelo interceptor
       );
       if (res.status === 200) {
         setUsername(newUsername);
@@ -127,16 +124,14 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
 
     const formData = new FormData();
     formData.append("image", file);
-    // ✅ Removido: formData.append("imageType", "avatar");
-    // O backend não precisa mais do imageType, pois a rota já é específica para avatares
 
     try {
       setAvatarLoading(true);
-      const token = localStorage.getItem("token");
-      // ✅ ALTERAÇÃO CRUCIAL: URL da requisição corrigida para corresponder ao backend
-      const res = await axios.put(`${API_URL}/api/profile/uploads/avatars`, formData, { // <-- ENVIANDO INFORMAÇÕES DO AVATAR
+      // const token = localStorage.getItem("token"); // Token já é adicionado pelo interceptor
+      // ✅ ALTERAÇÃO CRUCIAL: Usando 'api.put' e URL relativa
+      const res = await api.put('/profile/uploads/avatars', formData, { // <-- ENVIANDO INFORMAÇÕES DO AVATAR
         headers: {
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`, // Token já é adicionado pelo interceptor
           "Content-Type": "multipart/form-data", // Essencial para envio de arquivos
         },
       });
@@ -144,7 +139,10 @@ const SettingsPopup = ({ onClose, username, setUsername, setProfileImage, initia
       if (res.status === 200) {
         const imagePath = res.data.avatar; // O backend agora retorna 'avatar'
         if (imagePath) {
-          setProfileImage(`${API_URL}${imagePath}`); // Atualiza o estado da imagem de perfil no App.js
+          // ✅ Corrigido para usar a baseURL configurada no api.js para a imagem
+          // `api.defaults.baseURL` é 'https://todolistapp22.duckdns.org/api'
+          // Precisamos remover o '/api' para obter a base 'https://todolistapp22.duckdns.org'
+          setProfileImage(`${api.defaults.baseURL.replace('/api', '')}${imagePath}`); // Atualiza o estado da imagem de perfil no App.js
           toast.success("Avatar enviado com sucesso!");
           // Resetar estados e fechar/voltar para a seção principal
           setAvatarPreview(null);
