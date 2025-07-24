@@ -1,9 +1,12 @@
 // src/components/TaskListBox.js
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./TaskListBox.css";
 import { FiTrash, FiArrowLeftCircle } from "react-icons/fi";
-import axios from "axios";
-import toast from "react-hot-toast"; // ✅ Importe o toast
+// import axios from "axios"; // ❌ REMOVIDO: Não precisamos mais do axios direto
+import api from "../services/api"; // ✅ ALTERADO: Importa a instância 'api'
+import toast from "react-hot-toast";
+// import DatePicker from 'react-datepicker'; // Se você usa DatePicker, mantenha esta linha
+// import 'react-datepicker/dist/react-datepicker.css'; // Se você usa DatePicker, mantenha esta linha
 
 // Atualize a prop onSaveList para onSaveListSuccess (se ainda não fez)
 const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
@@ -18,13 +21,18 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
   const [items, setItems] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
   const inputRef = useRef(null);
-  // const [apiFeedback, setApiFeedback] = useState(""); // ✅ REMOVA ESTE ESTADO, pois usaremos toasts
   const [isSaving, setIsSaving] = useState(false);
-
 
   const maxChars = 150;
   const remainingChars = maxChars - listDescription.length;
   const itemRemainingChars = maxChars - itemDescription.length;
+
+  // Se você estiver usando DatePicker, mantenha este useEffect
+  // useEffect(() => {
+  //   if (listNameInputRef.current) {
+  //     listNameInputRef.current.focus();
+  //   }
+  // }, []);
 
   const handleImageUpload = (file) => {
     if (file && ["image/png", "image/jpeg", "image/gif"].includes(file.type)) {
@@ -38,7 +46,7 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
       };
       reader.readAsDataURL(file);
     } else {
-      toast.error("Formato inválido. Use PNG, JPEG ou GIF."); // ✅ Toast de erro
+      toast.error("Formato inválido. Use PNG, JPEG ou GIF.");
     }
   };
 
@@ -54,7 +62,7 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
 
   const handleAddItemToList = () => {
     if (!itemTitle) {
-      toast.warn("Dê um título ao item!"); // ✅ Toast de aviso
+      toast.warn("Dê um título ao item!");
       return;
     }
     const newItem = {
@@ -74,7 +82,7 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
   const handleRemoveItem = (indexToRemove) => {
     const updatedItems = items.filter((_, i) => i !== indexToRemove);
     setItems(updatedItems);
-    toast.info("Item removido da lista."); // ✅ Toast de informação
+    toast.info("Item removido da lista.");
   };
 
   const handleEditItem = (index) => {
@@ -102,21 +110,20 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
     setPreviewImage(null);
     setEditingIndex(null);
     setStep("items");
-    toast.success("Item atualizado com sucesso!"); // ✅ Toast de sucesso
+    toast.success("Item atualizado com sucesso!");
   };
 
   const handleSaveListToBackend = async () => {
     if (!listTitle) {
-      toast.warn("O título da lista não pode ser vazio."); // ✅ Toast de aviso
+      toast.warn("O título da lista não pode ser vazio.");
       return;
     }
     if (items.length === 0) {
-      toast.warn("Adicione pelo menos um item à lista."); // ✅ Toast de aviso
+      toast.warn("Adicione pelo menos um item à lista.");
       return;
     }
 
     setIsSaving(true);
-    // setApiFeedback(""); // ✅ REMOVA ESTA LINHA
 
     const newListData = {
       title: listTitle,
@@ -127,25 +134,27 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      toast.error("Você precisa estar logado para salvar a lista."); // ✅ Toast de erro
+      toast.error("Você precisa estar logado para salvar a lista.");
       setIsSaving(false);
       return;
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/tasklists",
-        newListData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+      // ✅ ALTERADO: Usando 'api.post' e URL relativa
+      const response = await api.post(
+        "/tasklists", // URL relativa, a baseURL do api.js já inclui /api
+        newListData
+        // ❌ REMOVIDO: Headers já são adicionados pelo interceptor do api.js
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
       );
 
       console.log("Lista salva com sucesso:", response.data);
-      toast.success("Lista de tarefas criada com sucesso!"); // ✅ Toast de sucesso
+      toast.success("Lista de tarefas criada com sucesso!");
       
       if (onSaveListSuccess) {
         onSaveListSuccess(response.data.taskList); 
@@ -157,12 +166,11 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
       const errorMessage = error.response && error.response.data && error.response.data.message 
                            ? error.response.data.message 
                            : 'Erro ao salvar a lista. Tente novamente.';
-      toast.error(`Erro: ${errorMessage}`); // ✅ Toast de erro
+      toast.error(`Erro: ${errorMessage}`);
     } finally {
       setIsSaving(false);
     }
   };
-
 
   return (
     <div className="tasklist-overlay">
@@ -176,6 +184,7 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
               value={listTitle}
               onChange={(e) => setListTitle(e.target.value)}
               className="list-title-input"
+              ref={listNameInputRef}
             />
             <div className="description-wrapper">
               <textarea
@@ -233,12 +242,6 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
                 </button>
               )}
             </div>
-            {/* ✅ REMOVA a linha abaixo, o apiFeedback não é mais usado */}
-            {/* {apiFeedback && (
-              <p className={`api-feedback ${apiFeedback.startsWith("Erro") ? "error" : "success"}`}>
-                {apiFeedback}
-              </p>
-            )} */}
           </>
         )}
 
