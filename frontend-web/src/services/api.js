@@ -2,7 +2,11 @@ import axios from 'axios';
 
 // Configura a instância base do axios com variáveis de ambiente
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api',
+  // ✅ CORREÇÃO AQUI: Garante que a baseURL sempre inclua o prefixo /api
+  // Isso fará com que as requisições do frontend correspondam ao 'location /api/' no Nginx.
+  // Ex: se REACT_APP_API_BASE_URL no Netlify for 'https://todolistapp22.duckdns.org',
+  // a baseURL se tornará 'https://todolistapp22.duckdns.org/api'.
+  baseURL: `${process.env.REACT_APP_API_BASE_URL}/api` || 'http://localhost:5000/api',
   timeout: 10000, // 10 segundos de timeout
   headers: {
     'Content-Type': 'application/json'
