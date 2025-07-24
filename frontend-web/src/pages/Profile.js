@@ -35,19 +35,25 @@ const Profile = ({
         const res = await api.get(`/auth/profile`);
 
         if (res.data.profileImage) { // res.data.profileImage é '/uploads/avatars/nome_da_imagem.jpg' do backend
-          // ✅ CORREÇÃO AQUI: Adiciona o prefixo /api para que o Nginx encaminhe corretamente
+          // ✅ CORREÇÃO AQUI: Garante que a URL da imagem sempre comece com /api/
+          // Isso é crucial para o Nginx encaminhar corretamente.
           // api.defaults.baseURL já é 'https://todolistapp22.duckdns.org/api'
-          setProfileImage(`${api.defaults.baseURL}${res.data.profileImage}`); // Resulta em: https://todolistapp22.duckdns.org/api/uploads/avatars/nome_da_imagem.jpg
+          // res.data.profileImage é '/uploads/avatars/nome_da_imagem.jpg'
+          // A junção deve ser feita com cuidado para não duplicar barras ou prefixos.
+          // Se res.data.profileImage já vem com uma barra inicial, basta concatenar.
+          // Ex: https://todolistapp22.duckdns.org/api + /uploads/avatars/nome.jpg
+          setProfileImage(`${api.defaults.baseURL}${res.data.profileImage}`);
         } else {
           setProfileImage(null);
         }
       } catch (err) {
         console.error('Erro ao carregar perfil:', err);
+        // Opcional: setProfileImage(null); para garantir que a imagem não apareça se houver erro
       }
     };
 
     if (token) fetchProfile();
-  }, [token, setProfileImage]);
+  }, [token, setProfileImage]); // Dependências: token e setProfileImage
 
   const fetchTaskLists = useCallback(async () => {
     setLoadingLists(true);
@@ -65,7 +71,7 @@ const Profile = ({
     } finally {
       setLoadingLists(false);
     }
-  }, [token]);
+  }, [token]); // Dependências: token
 
   useEffect(() => {
     if (token) {
