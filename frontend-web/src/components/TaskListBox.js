@@ -1,14 +1,11 @@
 // src/components/TaskListBox.js
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react"; // ✅ ALTERADO: Adicionado useEffect
 import "./TaskListBox.css";
 import { FiTrash, FiArrowLeftCircle } from "react-icons/fi";
 // import axios from "axios"; // ❌ REMOVIDO: Não precisamos mais do axios direto
 import api from "../services/api"; // ✅ ALTERADO: Importa a instância 'api'
 import toast from "react-hot-toast";
-// import DatePicker from 'react-datepicker'; // Se você usa DatePicker, mantenha esta linha
-// import 'react-datepicker/dist/react-datepicker.css'; // Se você usa DatePicker, mantenha esta linha
 
-// Atualize a prop onSaveList para onSaveListSuccess (se ainda não fez)
 const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
   const [step, setStep] = useState("form");
   const [listTitle, setListTitle] = useState("");
@@ -20,19 +17,20 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
-  const inputRef = useRef(null);
+  const inputRef = useRef(null); // Para o upload de imagem
   const [isSaving, setIsSaving] = useState(false);
+  const listNameInputRef = useRef(null); // ✅ ADICIONADO: Declaração do ref para o input do título da lista
 
   const maxChars = 150;
   const remainingChars = maxChars - listDescription.length;
   const itemRemainingChars = maxChars - itemDescription.length;
 
-  // Se você estiver usando DatePicker, mantenha este useEffect
-  // useEffect(() => {
-  //   if (listNameInputRef.current) {
-  //     listNameInputRef.current.focus();
-  //   }
-  // }, []);
+  // ✅ ADICIONADO/DESCOMENTADO: useEffect para focar o input do título da lista
+  useEffect(() => {
+    if (listNameInputRef.current) {
+      listNameInputRef.current.focus();
+    }
+  }, []);
 
   const handleImageUpload = (file) => {
     if (file && ["image/png", "image/jpeg", "image/gif"].includes(file.type)) {
@@ -140,17 +138,9 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
     }
 
     try {
-      // ✅ ALTERADO: Usando 'api.post' e URL relativa
       const response = await api.post(
-        "/tasklists", // URL relativa, a baseURL do api.js já inclui /api
+        "/tasklists",
         newListData
-        // ❌ REMOVIDO: Headers já são adicionados pelo interceptor do api.js
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //     'Content-Type': 'application/json',
-        //   },
-        // }
       );
 
       console.log("Lista salva com sucesso:", response.data);
@@ -184,7 +174,7 @@ const TaskListBox = ({ onCancel, onSaveListSuccess }) => {
               value={listTitle}
               onChange={(e) => setListTitle(e.target.value)}
               className="list-title-input"
-              ref={listNameInputRef}
+              ref={listNameInputRef} 
             />
             <div className="description-wrapper">
               <textarea
