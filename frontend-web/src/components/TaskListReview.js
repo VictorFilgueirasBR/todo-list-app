@@ -13,12 +13,7 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   const [showNotifyPopup, setShowNotifyPopup] = useState(false);
   const [reminderDate, setReminderDate] = useState("");
   const [reminderTime, setReminderTime] = useState("");
-
-  // ❌ REMOVIDO: A variável 'token' não é mais necessária aqui
-  // pois o token é adicionado automaticamente pelo interceptor do Axios na instância 'api'.
-  // const token = localStorage.getItem("token"); 
   
-
   useEffect(() => {
     // Carrega o lembrete existente ao abrir a lista
     if (list?.reminder?.date && list?.reminder?.time) {
@@ -40,16 +35,27 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   // Use list._id diretamente para as operações
   const currentListId = list._id;
 
-  // Função para obter a URL completa da imagem
+  // ✅ CORREÇÃO AQUI: Função para obter a URL completa da imagem
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
+
+    // Se a imagem já é uma URL completa (http/https), retorna como está
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
-    // Usa api.defaults.baseURL para construir a URL da imagem
-    // Adiciona /uploads/avatars/ pois o backend retorna apenas o nome do arquivo
-    return `${api.defaults.baseURL}/uploads/avatars/${imagePath}`;
+
+    // Se o imagePath já começa com '/uploads/', significa que ele já é o caminho completo
+    // a partir da raiz do servidor (ex: /uploads/task-images/nome-do-arquivo.png)
+    // Neste caso, precisamos apenas concatenar com a base URL do backend.
+    // Removemos o '/api' da baseURL para acessar o diretório de uploads diretamente.
+    const baseUrlWithoutApi = api.defaults.baseURL.replace('/api', '');
+    
+    // Garante que não haja barras duplas no início do imagePath
+    const cleanImagePath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+
+    return `${baseUrlWithoutApi}${cleanImagePath}`;
   };
+
 
   // Função para marcar/desmarcar item como concluído
   const handleToggleItemCompletion = async () => {
@@ -63,11 +69,9 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
 
     try {
       // Usa a instância 'api' para a requisição PUT
-      const response = await api.put( // Substitui axios.put por api.put
-        `/tasklists/${currentListId}`, // Remove ${API_URL}
+      const response = await api.put( 
+        `/tasklists/${currentListId}`, 
         updatedListPayload,
-        // Headers de autorização e content-type já são adicionados pelo interceptor do 'api'
-        // Não é necessário passar o objeto de headers aqui.
       );
       
       onUpdateList(response.data.taskList);
@@ -102,11 +106,9 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
 
     try {
       // Usa a instância 'api' para a requisição PUT
-      const response = await api.put( // Substitui axios.put por api.put
-        `/tasklists/${currentListId}`, // Remove ${API_URL}
+      const response = await api.put( 
+        `/tasklists/${currentListId}`, 
         updatedListPayload,
-        // Headers de autorização e content-type já são adicionados pelo interceptor do 'api'
-        // Não é necessário passar o objeto de headers aqui.
       );
 
       onUpdateList(response.data.taskList);
@@ -122,9 +124,7 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   const handleConfirmListDeletion = async () => {
     try {
       // Usa a instância 'api' para a requisição DELETE
-      await api.delete(`/tasklists/${currentListId}`); // Substitui axios.delete e remove ${API_URL}
-      // Headers de autorização já são adicionados pelo interceptor do 'api'
-      // Não é necessário passar o objeto de headers aqui.
+      await api.delete(`/tasklists/${currentListId}`); 
       onDeleteList(currentListId);
       toast.success("🗑️ Lista excluída com sucesso!");
       onClose();
