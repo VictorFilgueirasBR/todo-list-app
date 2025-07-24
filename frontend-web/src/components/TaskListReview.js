@@ -4,7 +4,7 @@ import "./TaskListReview.css";
 import { FiCheckCircle, FiCircle, FiArrowLeftCircle } from "react-icons/fi";
 import { BiBell } from "react-icons/bi";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "../services/api"; // ✅ CORREÇÃO AQUI: Importa a instância 'api'
 
 const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -14,9 +14,10 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   const [reminderDate, setReminderDate] = useState("");
   const [reminderTime, setReminderTime] = useState("");
 
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  // ❌ REMOVIDO: Não precisamos mais definir API_URL manualmente
+  // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
   const token = localStorage.getItem("token");
- 
+  
 
   useEffect(() => {
     // Carrega o lembrete existente ao abrir a lista
@@ -39,15 +40,15 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   // Use list._id diretamente para as operações
   const currentListId = list._id;
 
-  // ... o restante do seu código permanece INALTERADO a partir daqui ...
-
-  // Função para obter a URL completa da imagem
+  // Função para obter a URL completa da imagem (mantida, mas pode ser simplificada se a imagem já vem com o caminho completo)
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
-    return `${API_URL}${imagePath}`;
+    // ✅ CORREÇÃO AQUI: Usa api.defaults.baseURL para construir a URL da imagem
+    // Adiciona /uploads/avatars/ pois o backend retorna apenas o nome do arquivo
+    return `${api.defaults.baseURL}/uploads/avatars/${imagePath}`;
   };
 
   // Função para marcar/desmarcar item como concluído
@@ -61,15 +62,17 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
     const updatedListPayload = { ...list, items: updatedItems };
 
     try {
-      const response = await axios.put(
-        `${API_URL}/api/tasklists/${currentListId}`,
+      // ✅ CORREÇÃO AQUI: Usa a instância 'api' para a requisição PUT
+      const response = await api.put( // Substitui axios.put por api.put
+        `/tasklists/${currentListId}`, // Remove ${API_URL}
         updatedListPayload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        // Headers de autorização e content-type já são adicionados pelo interceptor do 'api'
+        // { 
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
       );
       
       onUpdateList(response.data.taskList);
@@ -103,15 +106,17 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
     };
 
     try {
-      const response = await axios.put(
-        `${API_URL}/api/tasklists/${currentListId}`,
+      // ✅ CORREÇÃO AQUI: Usa a instância 'api' para a requisição PUT
+      const response = await api.put( // Substitui axios.put por api.put
+        `/tasklists/${currentListId}`, // Remove ${API_URL}
         updatedListPayload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        // Headers de autorização e content-type já são adicionados pelo interceptor do 'api'
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
       );
 
       onUpdateList(response.data.taskList);
@@ -126,9 +131,12 @@ const TaskListReview = ({ list, onClose, onUpdateList, onDeleteList }) => {
   // Função para deletar a lista inteira
   const handleConfirmListDeletion = async () => {
     try {
-      await axios.delete(`${API_URL}/api/tasklists/${currentListId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // ✅ CORREÇÃO AQUI: Usa a instância 'api' para a requisição DELETE
+      await api.delete(`/tasklists/${currentListId}`); // Substitui axios.delete e remove ${API_URL}
+      // Headers de autorização já são adicionados pelo interceptor do 'api'
+      // {
+      //   headers: { Authorization: `Bearer ${token}` },
+      // }
       onDeleteList(currentListId);
       toast.success("🗑️ Lista excluída com sucesso!");
       onClose();
