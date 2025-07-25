@@ -1,85 +1,94 @@
-# ✅ ToDo List App - Web & Mobile
+# ToDo List App 📝
 
-Aplicação **ToDo List** desenvolvida como projeto de portfólio **FullStack**, com interfaces para **Web e Mobile**, utilizando **React**, **Spring Boot** e **MongoDB**, com autenticação via **JWT** e foco em produtividade, usabilidade e boas práticas de desenvolvimento moderno.
+Este projeto é uma aplicação web de lista de tarefas (ToDo List) com autenticação de usuário, sistema de perfil personalizado e funcionalidades completas tanto no frontend quanto no backend. Desenvolvido como parte do meu portfólio, o objetivo foi criar uma aplicação moderna, funcional e com foco na experiência do usuário.
 
----
+🔗 **Acesse a aplicação online:**
+[https://neon-blancmange-912087.netlify.app/](https://neon-blancmange-912087.netlify.app/)
 
-## 🚀 Primeira Aplicação Oficial no Meu Portfólio!
-
-Olá, pessoal! 👋  
-Este é o meu **primeiro projeto online**, e representa um marco na minha trajetória como desenvolvedor FullStack. O objetivo foi criar uma aplicação funcional e moderna, investindo o mínimo possível, mas garantindo qualidade, responsividade e escalabilidade.  
-
-📲 Acesse a aplicação online:  
-🔗 **https://neon-blancmange-912087.netlify.app/**
+👤 **Meu perfil no LinkedIn:**
+[https://www.linkedin.com/in/victor-filgueiras-935b422a1/](https://www.linkedin.com/in/victor-filgueiras-935b422a1/)
 
 ---
 
-## 🧠 Aprendizados & Experiência
+## ✨ Funcionalidades
 
-Durante o desenvolvimento, enfrentei e superei diversos desafios técnicos que contribuíram fortemente para minha evolução:
-
-- 🔐 **Autenticação JWT:** Aprendi a implementar e proteger rotas usando JSON Web Tokens.
-- 🧩 **Estruturação da Task List:** Apesar de parecer simples, criar um sistema de tarefas completo exigiu raciocínio lógico, estruturação de dados e manipulação de estados com React.
-- 🧠 **Fluxo de Lógica Front/Back:** Compreensão aprofundada da troca de dados entre frontend e backend.
-- 📱 **Adaptação Mobile:** Reestruturei toda a lógica visual e funcional para React Native, mantendo o mesmo nível de funcionalidades e fluxo de uso do usuário.
-- ☁️ **Deploy Backend (AWS):** Primeiro contato com deploy em nuvem. Surpreendentemente acessível, mesmo com a necessidade de ajustes e depuração.
-- 🔄 **Upload de imagens com atualizações dinâmicas:** Implementação robusta e reativa de uploads para perfil e tarefas.
-- 🚀 **Deploy do frontend:** Frontend hospedado com sucesso no **Netlify**, com correções de bugs pós-deploy e integração com o backend na nuvem.
+* Cadastro e login de usuários com autenticação via JWT
+* Criação e gerenciamento de listas e tarefas
+* Upload de foto de perfil e imagem de banner
+* Edição do nome de usuário
+* Interface adaptada para web e mobile (responsiva)
+* Frontend hospedado no Netlify
+* Backend com deploy na AWS (servidor online com banco de dados em nuvem)
 
 ---
 
-## ✨ Funcionalidades Concluídas
+## 💡 O que eu aprendi
 
-- ✅ **Cadastro e login de usuários** com autenticação via JWT  
-- ✅ **Criação, edição e exclusão de tarefas**
-- ✅ **Upload de mídia** para tarefas, avatar e banner de perfil
-- ✅ **Proteção de rotas** e dados do usuário com segurança
-- ✅ **Layout responsivo** e otimizado para Web
-- ✅ **Integração com MongoDB em nuvem**
-- ✅ **Deploy completo** do frontend com integração automatizada
-
----
-
-## 🔧 Tecnologias Utilizadas
-
-| Área        | Tecnologias                          |
-|-------------|--------------------------------------|
-| Frontend    | React (Web), React Native (Mobile)   |
-| Backend     | Java, Spring Boot                    |
-| Banco de Dados | MongoDB                            |
-| Autenticação| JWT (JSON Web Token)                 |
-| Hospedagem  | Netlify (frontend), AWS (backend)    |
-| Outros      | Node.js, Express (apoio), Git/GitHub |
+* Como estruturar e desenvolver um projeto fullstack completo com autenticação e gerenciamento de dados do usuário
+* Gerenciamento de estados e integração entre componentes no React
+* Como criar um backend robusto e seguro com Node.js, Express e MongoDB
+* Práticas de versionamento e separação de responsabilidades no código (MVC)
+* Adaptação de layout para diferentes plataformas (web/mobile)
+* Deploy de frontend e backend com integração contínua
 
 ---
 
-## 📌 Repositórios
+## 🚀 Tecnologias Utilizadas
 
-- 🔗 **Frontend & Full Projeto:** [todo-list-app (GitHub)](https://github.com/VictorFilgueirasBR/todo-list-app.git)
-- 🌐 **Aplicação Web Online:** [https://neon-blancmange-912087.netlify.app](https://neon-blancmange-912087.netlify.app)
+### 🎨 Frontend (React)
+
+* React
+* React Router
+* CSS Modules / Tailwind CSS (opcional)
+* Fetch API para comunicação com backend
+* Armazenamento local de JWT (localStorage)
+
+### ⚙️ Backend (Node.js + Express)
+
+* **Node.js** – Ambiente de execução JavaScript no servidor
+* **Express** – Framework para criação de rotas e APIs REST
+* **JWT (jsonwebtoken)** – Autenticação baseada em tokens
+* **bcrypt / bcryptjs** – Criptografia de senhas
+* **Mongoose** – ODM para interação com MongoDB
+* **multer** – Upload de arquivos (avatar e banner)
+* **dotenv** – Configuração de variáveis de ambiente
+* **uuid** – Geração de IDs únicos
+* **cors** – Permitir requisições do frontend
+
+---
+
+## 🧠 Desafios do Projeto
+
+* Estruturar corretamente as listas de tarefas e garantir a persistência dos dados
+* Criar um sistema de login seguro e com proteção de rotas privadas
+* Implementar o upload de imagens com tratamento e salvamento no banco de dados
+* Adaptar a aplicação web para funcionar perfeitamente no mobile
+* Hospedar o backend na AWS, configurando o servidor online e conectando com o banco de dados na nuvem
 
 ---
 
-## 🛠️ Próximos Passos
+## 🌐 Deploy
 
-- 🔔 Push Notifications para tarefas  
-- 🧪 Testes automatizados com Jest (frontend) e JUnit (backend)  
-- 📱 Finalização e publicação do app Mobile com React Native  
-- 🌐 CI/CD com GitHub Actions para deploy automático  
-- 📊 Dashboard de estatísticas de produtividade  
+* **Frontend:** hospedado no [Netlify](https://neon-blancmange-912087.netlify.app/)
+* **Backend:** hospedado na **AWS**, com banco de dados MongoDB Atlas
 
 ---
 
-## 💬 Contato
+## 📁 Organização do Projeto
 
-📧 victorfilgueiras.dev@gmail.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/victor-filgueiras-935b422a1/)
+```
+/todo-list-app
+├── /client        # Frontend (React)
+├── /backend       # Backend (Node.js + Express + MongoDB)
+```
+
+---
+
+## 📬 Contato
+
+Se você gostou do projeto ou quiser conversar sobre desenvolvimento e colaboração, me chame no LinkedIn!
+👉 [Victor Filgueiras](https://www.linkedin.com/in/victor-filgueiras-935b422a1/)
 
 ---
 
-## 🏷️ Tags
-
-`#FullStack` `#Java` `#SpringBoot` `#React` `#ReactNative`  
-`#MongoDB` `#JWT` `#Netlify` `#AWS` `#PortfólioDev` `#DesenvolvedorWeb`
-
----
+Feito com 💻 por Victor Filgueiras
