@@ -19,7 +19,7 @@ const Home = () => {
           <div className="hero-text">
             <h1>Organize sua rotina com eficiência</h1>
             <p>Crie, edite e receba lembretes das suas tarefas de forma intuitiva e prática.</p>
-            <a href="http://localhost:3000/signup" className="cta-button">Começar Agora</a>
+            <a href="https://neon-blancmange-912087.netlify.app/login" className="cta-button">Começar Agora</a>
           </div>
         </section>
 

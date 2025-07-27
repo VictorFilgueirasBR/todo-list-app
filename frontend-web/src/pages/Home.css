@@ -62,21 +62,45 @@
   }
   
   .cta-button {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    background-color: #00bfff;
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
+    gap: 5px;
+    background-color: transparent;
+    border: solid 1px #fff; /* Corrigido para "solid 1px" */
     border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: background-color 0.3s;
+    padding: 10px;
+    font-size: medium;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+
+    background: linear-gradient(251deg, #6dfc34, #04ffff, #00bfff, #04bdf5, #5ccefc, #009ad6, #14f28a, #fffcf8, #00ffea, #00752d, #5b36ff, #05acca);
+      background-size: 2400% 2400%;
+
+      -webkit-animation: AnimationName 10s ease infinite;
+      -moz-animation: AnimationName 10s ease infinite;
+      animation: AnimationName 8s ease infinite;
   }
+
+  @-webkit-keyframes AnimationName {
+      0%{background-position:0% 54%}
+      50%{background-position:100% 47%}
+      100%{background-position:0% 54%}
+  }
+  @-moz-keyframes AnimationName {
+      0%{background-position:0% 54%}
+      50%{background-position:100% 47%}
+      100%{background-position:0% 54%}
+  }
+  @keyframes AnimationName {
+      0%{background-position:0% 54%}
+      50%{background-position:100% 47%}
+      100%{background-position:0% 54%}
+
+    }
   
-  .cta-button:hover {
-    background-color: #009acd;
-  }
+  
 
   /* Divisor entre seções */
   .divider-section-home {
