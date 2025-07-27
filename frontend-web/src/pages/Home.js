@@ -58,7 +58,7 @@ const Home = () => {
         <section className="about">
           <h2>Sobre o Projeto</h2>
           <p>
-            Meu primeiro projeto publico como Engenheiro de Software e desenvolvedor fullstack. Analisando sempre as melhores opções para aplicação de boas práticas de desenvolvimento web/mobile com designs intuitívos e sou um estusiasta de tecnologias AUTHCRYPTOGRAPHY.
+            Meu primeiro projeto publico como Engenheiro de Software e desenvolvedor fullstack. Analisando sempre as melhores opções para aplicação de boas práticas de desenvolvimento web/mobile com designs intuitívos, pesquisador na area de dados a Machine Learning.
           </p>
         </section>
 
