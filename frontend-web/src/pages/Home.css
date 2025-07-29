@@ -79,7 +79,7 @@
 
       /* Propriedades para fixar e flutuar o botão */
       position: fixed;
-      bottom: 30px; /* Ajuste conforme necessário para a posição vertical */
+      bottom: 70px; /* Ajuste conforme necessário para a posição vertical */
       right: 30px; /* Ajuste conforme necessário para a posição horizontal */
       z-index: 1000; /* Garante que o botão fique acima de outros elementos */
       /* Adiciona a sombra para profundidade e flutuação, inspirada na imagem */
