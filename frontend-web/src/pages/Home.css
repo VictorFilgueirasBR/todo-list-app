@@ -62,22 +62,31 @@
   }
   
   .cta-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    background-color: transparent;
-    border: solid 1px #fff; /* Corrigido para "solid 1px" */
-    border-radius: 8px;
-    padding: 10px;
-    font-family: sans-serif;
-    font-size: medium;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      background-color: transparent;
+      border: solid 1px #fff;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: sans-serif;
+      font-size: medium;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      text-decoration: none; /* Adicionado para remover o sublinhado */
 
-    background: linear-gradient(251deg, #6dfc34, #04ffff, #00bfff, #04bdf5, #5ccefc, #009ad6, #14f28a, #fffcf8, #00ffea, #00752d, #5b36ff, #05acca);
+      /* Propriedades para fixar e flutuar o botão */
+      position: fixed;
+      bottom: 30px; /* Ajuste conforme necessário para a posição vertical */
+      right: 30px; /* Ajuste conforme necessário para a posição horizontal */
+      z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+      /* Adiciona a sombra para profundidade e flutuação, inspirada na imagem */
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 255, 255, 0.1);
+
+
+      background: linear-gradient(251deg, #6dfc34, #04ffff, #00bfff, #04bdf5, #5ccefc, #009ad6, #14f28a, #fffcf8, #00ffea, #00752d, #5b36ff, #05acca);
       background-size: 2400% 2400%;
 
       -webkit-animation: AnimationName 10s ease infinite;
@@ -99,8 +108,7 @@
       0%{background-position:0% 54%}
       50%{background-position:100% 47%}
       100%{background-position:0% 54%}
-
-    }
+  }
   
   
 
