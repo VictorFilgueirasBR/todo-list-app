@@ -6,46 +6,60 @@
     justify-content: center;
     align-items: center;
     background-color: #000; /* fallback */
-    border-radius: 15px 15px 15px 15px;
+    border-radius: 15px;
     border: solid 2px #ff8d0b3b;
     align-self: center;
     margin-top: 2rem;
     margin-bottom: 2rem;
     box-shadow: 0 0 12px rgba(124, 106, 1, 0.05);
-    position: relative; /* Adicionado para posicionar o pseudo-elemento ::before */
-    cursor: pointer; /* Adicionado para indicar interatividade com o hover */
+    position: relative;
+    cursor: pointer;
 }
 
 @media (max-width: 768px)  {
-    .header-banner{
-    height: 25vh;}
+    .header-banner {
+        height: 25vh;
+    }
 }
 
 .header-banner img {
     width: 100%;
-    height: 100%;
+    height: 120%; /* maior para o movimento vertical não cortar */
     object-fit: cover;
     border-radius: 0 0 15px 15px;
+    filter: brightness(0.85);
+    will-change: transform;
 }
 
-/* Efeito Shine (Brilho Deslizante) no hover */
+/* Parallax infinito vertical igual ao about-hero */
+.parallax-img {
+    animation: parallaxScroll 20s linear infinite;
+}
+
+@keyframes parallaxScroll {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8%); }
+    100% { transform: translateY(0); }
+}
+
+/* Efeito Shine no hover */
 .header-banner::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%; /* Começa fora da tela */
+    left: -100%;
     width: 100%;
     height: 100%;
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.1), /* Brilho sutil */
+        rgba(255, 255, 255, 0.1),
         transparent
     );
-    transition: transform 0.5s ease; /* Transição para o movimento */
-    z-index: 1; /* Garante que o brilho fique acima do fundo, mas abaixo do conteúdo */
+    transition: transform 0.5s ease;
+    z-index: 1;
 }
 
 .header-banner:hover::before {
-    transform: translateX(200%); /* Desliza o brilho para a direita */
+    transform: translateX(200%);
 }
