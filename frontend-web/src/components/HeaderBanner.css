@@ -1,15 +1,24 @@
 .header-banner {
     width: 100%;
-    height: 200px;
+    height: 65vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #000; /* fallback */
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px 15px 15px 15px;
+    border: solid 2px #ff8d0b3b;
+    align-self: center;
+    margin-top: 2rem;
     margin-bottom: 2rem;
+    box-shadow: 0 0 12px rgba(124, 106, 1, 0.05);
     position: relative; /* Adicionado para posicionar o pseudo-elemento ::before */
     cursor: pointer; /* Adicionado para indicar interatividade com o hover */
+}
+
+@media (max-width: 768px)  {
+    .header-banner{
+    height: 25vh;}
 }
 
 .header-banner img {
